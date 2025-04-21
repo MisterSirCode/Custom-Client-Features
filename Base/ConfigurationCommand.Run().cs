@@ -14,6 +14,13 @@
 			ConfigurationCommand.initial = false;
             // Setup
             new ExternalConsole().Initialize();
+			new ExternalAssetManager().Initialize();
+			ExternalAssetManager eam = ExternalAssetManager.GetInstance();
+			eam.CreateAsset("bgm-ghost-hammer", "ghost.hammer.wav", "music");
+			eam.CreateAsset("bgm-android-lullabye", "android.lullabye.wav", "music");
+			eam.CreateAsset("bgm-hidden-away-part-1", "hidden.away.part.1.wav", "music");
+			eam.CreateAsset("bgm-minds-and-matters", "minds.and.matters.wav", "music");
+			eam.CreateAsset("bgm-song-for-a-dying-world", "song.for.a.dying.world.wav", "music");
 		}
 		catch (Exception ex) {
 			Debug.Log("Configuration failed: " + ex.Message + " --- " + ex.StackTrace);
