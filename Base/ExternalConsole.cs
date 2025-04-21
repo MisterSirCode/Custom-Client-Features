@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-// Token: 0x020009BC RID: 2492
 public class ExternalConsole
 {
-	// Token: 0x060049E4 RID: 18916
 	public ExternalConsole()
 	{
 	}
@@ -74,19 +72,27 @@ public class ExternalConsole
 		return null;
 	}
 
-	public void Log(string name, string output) 
+	public static void AddModule(ExternalConsoleModule module)
+	{
+		if (ExternalConsole.instance == null) {
+			return;
+		}
+		ExternalConsole.instance.modules.Add(module);
+	}
+
+	public static void Log(string name, string output) 
 	{
 		ExternalConsoleModule module = ExternalConsole.GetModule(name);
 		if (module != null) {
 			if (module.state) module.output = output;
 			return;
 		}
-		ExternalConsoleModule newModule = new ExternalConsoleModule(name, "value", false);
+		ExternalConsoleModule newModule = new ExternalConsoleModule(name, "value", true);
 		newModule.output = output;
-		this.modules.Add(newModule);
+		ExternalConsole.AddModule(newModule);
 	}
 
-	public void Button(string name, Action action)
+	public static void Button(string name, Action action)
 	{
 		ExternalConsoleModule module = ExternalConsole.GetModule(name);
 		if (module != null) {
@@ -94,7 +100,7 @@ public class ExternalConsole
 			return;
 		}
 		ExternalConsoleModule newModule = new ExternalConsoleModule(name, action);
-		this.modules.Add(newModule);
+		ExternalConsole.AddModule(newModule);
 	}
 
 	public bool visible;
