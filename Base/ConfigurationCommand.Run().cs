@@ -28,10 +28,6 @@
 			GameObject musicManager = new GameObject();
 			musicManager.AddComponent<ExternalMusicLoader>();
 			UnityEngine.Object.Instantiate<GameObject>(musicManager);
-			ExternalConsole.Button("Play First Song", delegate
-			{
-				musicManager.GetComponent<ExternalMusicLoader>().PlayTestClip();
-			});
 		}
 		catch (Exception ex) {
 			Debug.Log("Configuration failed: " + ex.Message + " --- " + ex.StackTrace);

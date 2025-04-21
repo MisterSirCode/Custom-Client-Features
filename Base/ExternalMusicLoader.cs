@@ -11,9 +11,26 @@ public class ExternalMusicLoader : MonoBehaviour
 	{
 		AudioSource newSource = Camera.current.gameObject.AddComponent<AudioSource>();
 		this.controller = newSource;
-		ExternalAsset testSong = ExternalAssetManager.instance.loaded.First<ExternalAsset>();
-		ExternalConsole.Log("Loading " + testSong.name, testSong.GetRectifiedPath());
-		base.StartCoroutine(this.LoadAudioFile(testSong.GetRectifiedPath()));
+        this.waitingForNext = true;
+        this.waitingForSong = true;
+        this.playLoop = false;
+        this.queue = new List<ExternalAsset>();
+	}
+
+	public void Update()
+	{
+		if (this.playLoop) {
+            if (this.waitingForNext) {
+                PlayNextInQueue();
+                this.waitingForNext = false;
+            }
+            if (!this.waitingForSong) {
+                if (!this.controller.isPlaying) {
+					this.waitingForSong = true;
+					this.waitingForNext = true;
+				}
+            }
+		}
 	}
 
 	public IEnumerator LoadAudioFile(string path)
@@ -21,8 +38,11 @@ public class ExternalMusicLoader : MonoBehaviour
 		WWW www = new WWW(path);
 		yield return www;
 		try {
-			testClip = www.GetAudioClip(false, false, AudioType.WAV);
+			this.clip = www.GetAudioClip(false, false, AudioType.WAV);
 			ExternalConsole.Log("Song Size (MB)", Mathf.Round((float)www.bytesDownloaded / 1000000f).ToString());
+            this.controller.clip = this.clip;
+            this.controller.Play();
+            this.waitingForSong = false;
 			www.Dispose();
 			yield break;
 		} catch(Exception e) {
@@ -30,15 +50,28 @@ public class ExternalMusicLoader : MonoBehaviour
 		}
 	}
 
-	public void PlayTestClip()
-	{
-		this.controller.volume = 1f;
-		this.controller.clip = this.testClip;
-		this.controller.Play();
-	}
+    public void GenerateRandomQueue()
+    {
+        this.queue = new List<ExternalAsset>(this.assets);
+        this.queue.Shuffle();
+    }
 
+    public void PlayNextInQueue() 
+    {
+        if (this.queue.Count > 0) {
+		    base.StartCoroutine(this.LoadAudioFile(this.queue.First().GetRectifiedPath()));
+            this.queue.RemoveAt(0);
+        } else {
+            this.GenerateRandomQueue();
+            this.PlayNextInQueue();
+        }
+    }
+
+    public List<ExternalAsset> queue;
     public List<ExternalAsset> assets;
-    public List<AudioClip> clips;
 	public AudioSource controller;
-	public AudioClip testClip;
+	public AudioClip clip;
+    public bool playLoop;
+    public bool waitingForNext;
+    public bool waitingForSong;
 }
