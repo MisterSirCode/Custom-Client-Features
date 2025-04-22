@@ -27,6 +27,15 @@ public class ExternalAssetManager
 		if (item.AssetExists()) this.loaded.Add(item);
 	}
 
+	public List<ExternalAsset> GetAssetsOfType(string type)
+	{
+		List<ExternalAsset> results = new List<ExternalAsset>();
+		foreach (ExternalAsset asset in this.loaded) {
+			if (asset.type == type) results.Add(asset);
+		}
+		return results;
+	}
+
 	public static ExternalAssetManager instance;
 	public string localPath;
 	public List<ExternalAsset> assets;
