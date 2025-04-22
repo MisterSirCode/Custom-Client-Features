@@ -32,5 +32,8 @@
 		Messenger.AddListener<object>("zoneEntered", new Callback<object>(this.OnEntered));
 		Messenger.AddListener<Vector2>("blockInfoRequest", new Callback<Vector2>(this.DebugBlock));
 		Messenger.AddListener("toggleZoneBookmark", new Callback(this.OnToggleZoneBookmark));
-		ExternalMusicLoader.instance.controller.volume = PlayerPrefs.GetFloat("musicVolume");
+		if (PlayerPrefs.HasKey("musicVolume"))
+			ExternalMusicLoader.instance.controller.volume = PlayerPrefs.GetFloat("musicVolume");
+		else
+			ExternalMusicLoader.instance.controller.volume = 1f;
 	}
