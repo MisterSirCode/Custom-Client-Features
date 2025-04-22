@@ -15,16 +15,21 @@ public class ExternalSpriteLoader : MonoBehaviour
 		}
 		ExternalSpriteLoader.instance = this;
 		this.assets = ExternalAssetManager.GetInstance().GetAssetsOfType("sprite");
+		ExternalConsole.Log("Begin Asset Loading", this.assets.Count.ToString()); 
+        this.LoadAllSprites();
 	}
 
-	public IEnumerator LoadSpriteFile(string path)
+	public IEnumerator LoadSpriteFile(ExternalAsset asset)
 	{
-		WWW www = new WWW(path);
+		ExternalConsole.Log("Attempting to Load Asset", asset.name); 
+		WWW www = new WWW(asset.path);
 		yield return www;
 		try {
             Texture2D texture = www.texture;
-			this.sprites.Add(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0,0)));
 			ExternalConsole.Log("Texture Size (KB)", Mathf.Round((float)www.bytesDownloaded / 1000f).ToString());
+            asset.loaded = true;
+			asset.SetData(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0,0)));
+            this.sprites.Add(asset);
 			www.Dispose();
 			yield break;
 		} catch(Exception e) {
@@ -32,7 +37,26 @@ public class ExternalSpriteLoader : MonoBehaviour
 		}
 	}
 
+    public void LoadAllSprites()
+    {
+        this.sprites = new List<ExternalAsset>();
+        foreach (ExternalAsset asset in this.assets) {
+		    ExternalConsole.Log("Testing Asset", asset.name); 
+            base.StartCoroutine(this.LoadSpriteFile(asset));
+        }
+    }
+
+    public static Sprite GetSprite(string name) 
+    {
+        foreach (ExternalAsset asset in ExternalSpriteLoader.instance.assets) {
+            if (asset.name == name) {
+                return (Sprite)asset.GetData();
+            }
+        }
+        return null;
+    }
+
 	public static ExternalSpriteLoader instance;
     public List<ExternalAsset> assets;
-	public List<Sprite> sprites;
+    public List<ExternalAsset> sprites;
 }
