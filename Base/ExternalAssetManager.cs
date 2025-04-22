@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,9 +23,24 @@ public class ExternalAssetManager
 
 	public void CreateAsset(string name, string path, string type)
 	{
-		ExternalAsset item = new ExternalAsset(name, this.localPath + "/External/" + type + "/" + path, type + "/" + path, type);
+		string fullPath = this.localPath + "/External/" + type + "/" + path;
+		ExternalAsset item = new ExternalAsset(name, fullPath, path, type);
 		this.assets.Add(item);
 		if (item.AssetExists()) this.loaded.Add(item);
+	}
+
+	public void AutoCreateAssets()
+	{
+		string[] dirs = Directory.GetDirectories(this.localPath + "/External/");
+		foreach (string dir in dirs) {
+			DirectoryInfo info = new DirectoryInfo(dir);
+			FileInfo[] files = info.GetFiles();
+			foreach (FileInfo file in files) {
+				ExternalAsset item = new ExternalAsset(Path.GetFileNameWithoutExtension(file.FullName), file.FullName, file.Name, info.Name);
+				//ExternalConsole.Log(info.Name + "/" + file.Name, Path.GetFileNameWithoutExtension(file.FullName) + " (" + info.Name + ")");
+				this.loaded.Add(item);
+			}
+		}
 	}
 
 	public List<ExternalAsset> GetAssetsOfType(string type)
