@@ -23,12 +23,13 @@ public class ExternalMusicLoader : MonoBehaviour
         this.waitingForNext = true;
         this.waitingForSong = true;
         this.playLoop = false;
+		this.assets = ExternalAssetManager.GetInstance().loaded;
         this.queue = new List<ExternalAsset>();
 	}
 
 	public void Update()
 	{
-		if (this.playLoop && Zone.IsActive()) {
+		if (this.playLoop && GameManager.IsGame()) {
             if (this.waitingForNext) {
 				base.StartCoroutine(PlayNextInQueueWithDelay());
                 this.waitingForNext = false;
@@ -40,7 +41,7 @@ public class ExternalMusicLoader : MonoBehaviour
 				}
             }
 		}
-        if (!Zone.IsActive()) this.controller.Stop();
+        if (!GameManager.IsGame()) this.controller.Stop();
 	}
 
 	public IEnumerator LoadAudioFile(string path)
