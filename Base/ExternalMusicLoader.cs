@@ -16,6 +16,7 @@ public class ExternalMusicLoader : MonoBehaviour
 		ExternalMusicLoader.instance = this;
 		AudioSource newSource = Camera.current.gameObject.AddComponent<AudioSource>();
 		this.controller = newSource;
+		this.controller.volume = PlayerPrefs.GetFloat("musicVolume");
         this.waitingForNext = true;
         this.waitingForSong = true;
         this.playLoop = false;

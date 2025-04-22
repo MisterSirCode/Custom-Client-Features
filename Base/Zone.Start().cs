@@ -32,6 +32,5 @@
 		Messenger.AddListener<object>("zoneEntered", new Callback<object>(this.OnEntered));
 		Messenger.AddListener<Vector2>("blockInfoRequest", new Callback<Vector2>(this.DebugBlock));
 		Messenger.AddListener("toggleZoneBookmark", new Callback(this.OnToggleZoneBookmark));
-		Destroy(Camera.current.GetComponent<ExternalMusicLoader>());
-		Camera.current.gameObject.AddComponent<ExternalMusicLoader>();
+		ExternalMusicLoader.instance.controller.volume = PlayerPrefs.GetFloat("musicVolume");
 	}
