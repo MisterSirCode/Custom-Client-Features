@@ -9,6 +9,11 @@ public class ExternalMusicLoader : MonoBehaviour
 {
 	public void Start()
 	{
+		if (ExternalMusicLoader.instance != null)
+		{
+			return;
+		}
+		ExternalMusicLoader.instance = this;
 		AudioSource newSource = Camera.current.gameObject.AddComponent<AudioSource>();
 		this.controller = newSource;
         this.waitingForNext = true;
@@ -19,9 +24,9 @@ public class ExternalMusicLoader : MonoBehaviour
 
 	public void Update()
 	{
-		if (this.playLoop) {
+		if (this.playLoop && Zone.IsActive()) {
             if (this.waitingForNext) {
-                PlayNextInQueue();
+				base.StartCoroutine(PlayNextInQueueWithDelay());
                 this.waitingForNext = false;
             }
             if (!this.waitingForSong) {
@@ -31,6 +36,7 @@ public class ExternalMusicLoader : MonoBehaviour
 				}
             }
 		}
+        if (!Zone.IsActive()) this.controller.Stop();
 	}
 
 	public IEnumerator LoadAudioFile(string path)
@@ -67,6 +73,14 @@ public class ExternalMusicLoader : MonoBehaviour
         }
     }
 
+    public IEnumerator PlayNextInQueueWithDelay()
+    {
+        yield return new WaitForSeconds(10);
+        PlayNextInQueue();
+        yield break;
+    }
+
+	public static ExternalMusicLoader instance;
     public List<ExternalAsset> queue;
     public List<ExternalAsset> assets;
 	public AudioSource controller;

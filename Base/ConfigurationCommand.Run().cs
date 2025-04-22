@@ -24,10 +24,9 @@
 			eam.CreateAsset("bgm-deepworld.soundtrack.vol.1.teaser", "deepworld.soundtrack.vol.1.teaser.wav", "music");
 			eam.CreateAsset("bgm-slightly.mad.science.penultimate.cut", "slightly.mad.science.penultimate.cut.wav", "music");
 			eam.CreateAsset("bgm-deepworld.v2", "deepworld.v2.wav", "music");
+			ExternalMusicLoader.instance = null;
 			ExternalConsole.Log("Asset Count", eam.loaded.Count.ToString());
-			GameObject musicManager = new GameObject();
-			musicManager.AddComponent<ExternalMusicLoader>();
-			UnityEngine.Object.Instantiate<GameObject>(musicManager);
+			Camera.current.gameObject.AddComponent<ExternalMusicLoader>();
 		}
 		catch (Exception ex) {
 			Debug.Log("Configuration failed: " + ex.Message + " --- " + ex.StackTrace);
