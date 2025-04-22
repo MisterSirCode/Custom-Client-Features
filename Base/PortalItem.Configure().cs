@@ -2,7 +2,15 @@
 	{
 		this.config = _config;
 		string @string = this.config.GetString("activity", (!this.config.GetBool("pvp", false)) ? null : "PvP");
-		this.biomeIcon.sprite = GameGui.GetSprite("biome-" + this.config.GetString("biome"));
+		this.biomeIcon.sprite = GameGui.GetSprite("biome-" + this.config.GetString("biome"));		
+        if (this.config.GetString("biome") == "ocean") {
+			Sprite sprite = ExternalSpriteLoader.GetSprite("biome-ocean");
+			this.biomeIcon.sprite = sprite;
+		}
+		if (this.config.GetString("activity") == "market") {
+			Sprite sprite2 = ExternalSpriteLoader.GetSprite("market-world");
+			this.biomeIcon.sprite = sprite2;
+		}
 		this.primaryLabel.text = this.config.GetString("name") + ((@string == null) ? string.Empty : string.Concat(new string[] {
 			" <color=#",
 			GameGui.AltTitleColorHex,
