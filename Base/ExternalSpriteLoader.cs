@@ -14,7 +14,7 @@ public class ExternalSpriteLoader : MonoBehaviour
 			return;
 		}
 		ExternalSpriteLoader.instance = this;
-		this.assets = ExternalAssetManager.GetInstance().loaded;
+		this.assets = ExternalAssetManager.GetInstance().GetAssetsOfType("sprite");
 	}
 
 	public IEnumerator LoadSpriteFile(string path)
