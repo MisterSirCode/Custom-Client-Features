@@ -1,0 +1,20 @@
+public enum Action
+{
+	None,
+	Mine,
+	Dig,
+	Smash,
+	Gun,
+	Shield,
+	Heal,
+	Refill,
+	Teleport,
+	Stealth,
+	Exoleg,
+	Melee,
+	SkillReset,
+	Revive,
+	NameChange,
+	Unknown,
+	Scrub
+}
