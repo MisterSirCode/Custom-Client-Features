@@ -50,7 +50,7 @@ public class ExternalMusicLoader : MonoBehaviour
 		yield return www;
 		try {
 			this.clip = www.GetAudioClip(false, false, AudioType.WAV);
-			ExternalConsole.Log("Song Size (MB)", Mathf.Round((float)www.bytesDownloaded / 1000000f).ToString());
+			//ExternalConsole.Log("Song Size (MB)", Mathf.Round((float)www.bytesDownloaded / 1000000f).ToString());
             this.controller.clip = this.clip;
             this.controller.Play();
             this.waitingForSong = false;

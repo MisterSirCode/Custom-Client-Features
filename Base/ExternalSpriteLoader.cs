@@ -21,12 +21,11 @@ public class ExternalSpriteLoader : MonoBehaviour
 
 	public IEnumerator LoadSpriteFile(ExternalAsset asset)
 	{
-		ExternalConsole.Log("Attempting to Load Asset", asset.name); 
 		WWW www = new WWW(asset.path);
 		yield return www;
 		try {
             Texture2D texture = www.texture;
-			ExternalConsole.Log("Texture Size (KB)", Mathf.Round((float)www.bytesDownloaded / 1000f).ToString());
+			//ExternalConsole.Log("Texture Size (KB)", Mathf.Round((float)www.bytesDownloaded / 1000f).ToString());
             asset.loaded = true;
 			asset.SetData(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0,0)));
             this.sprites.Add(asset);
