@@ -5,7 +5,9 @@
 			return;
 		}
         if (this.IsPrimaryItemScrubbingTool()) {
-
+            if (!this.TryToScrubBlock(blockPosition)) {
+			    this.SwingTool(worldPosition);
+            }
         }
 		if (!this.TryToMineBlock(blockPosition)) {
 			this.SwingTool(worldPosition);
