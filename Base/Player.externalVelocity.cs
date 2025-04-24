@@ -1,0 +1,1 @@
+public Vector3 externalVelocity;
