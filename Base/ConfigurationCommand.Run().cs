@@ -4,6 +4,7 @@
 			if (ExternalConsole.GetInstance() == null)
 			{
 				new ExternalConsole().Initialize();
+				Camera.current.gameObject.AddComponent<ExternalControllerManager>();
 			}
 			int entityId = Convert.ToInt32(this.data[0]);
 			Dictionary<string, object> config = (Dictionary<string, object>)this.data[1];
@@ -26,7 +27,6 @@
 					ExternalConsole.Log(joystickNames[i], "");
 				}
 				ExternalConsole.Log("Asset Count", eam.loaded.Count.ToString());
-				Camera.current.gameObject.AddComponent<ExternalControllerManager>();
 				Camera.current.gameObject.AddComponent<ExternalMusicLoader>();
 				Camera.current.gameObject.AddComponent<ExternalSpriteLoader>();
 				ExternalConsole.Button("Play Music", delegate {

@@ -12,13 +12,16 @@ public class ExternalControllerManager : MonoBehaviour
 			return;
 		}
 		ExternalControllerManager.instance = this;
-		this.deadzone = 0.07f;
+		this.deadzone = 0.1f;
 	}
 
 	public void Update()
 	{
-		if (this.ControllerEnabled()) {
-			ExternalConsole.Log("Left Stick", "X: " + this.LeftStick_X() + " Y: " + this.LeftStick_Y());
+		bool debug = true;
+		if (this.ControllerEnabled() && debug) {
+			ExternalConsole.Log("Left Stick", "X: " + this.LeftStick_X().ToString() + " Y: " + this.LeftStick_Y().ToString());
+			ExternalConsole.Log("Right Stick", "X: " + this.RightStick_X().ToString() + " Y: " + this.RightStick_Y().ToString());
+			ExternalConsole.Log("Triggers", "Left: " + this.LeftTrigger().ToString() + " Right: " + this.RightTrigger().ToString());
 		}
 	}
 
@@ -54,6 +57,28 @@ public class ExternalControllerManager : MonoBehaviour
 	{
 		float val = GamePad.GetState(PlayerIndex.One).ThumbSticks.Right.Y;
 		return Mathf.Abs(val) >= this.deadzone ? val : 0;
+	}
+
+	public float LeftTrigger()
+	{
+		float val = GamePad.GetState(PlayerIndex.One).Triggers.Left;
+		return Mathf.Abs(val) >= this.deadzone ? val : 0;
+	}
+
+	public float RightTrigger()
+	{
+		float val = GamePad.GetState(PlayerIndex.One).Triggers.Right;
+		return Mathf.Abs(val) >= this.deadzone ? val : 0;
+	}
+
+	public bool LeftDown()
+	{
+		return this.LeftTrigger() > 0.25f;
+	}
+
+	public bool RightDown()
+	{
+		return this.RightTrigger() > 0.25f;
 	}
 
 	public static ExternalControllerManager instance;
