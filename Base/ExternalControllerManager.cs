@@ -81,6 +81,10 @@ public class ExternalControllerManager : MonoBehaviour
 		return this.RightTrigger() > 0.25f;
 	}
 
+	public void StepPlayerControls()
+	{
+	}
+
 	public static ExternalControllerManager instance;
 	public float deadzone;
 }
