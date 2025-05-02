@@ -1,6 +1,10 @@
 	public override void Run()
 	{
 		try {
+			if (ExternalConsole.GetInstance() == null)
+			{
+				new ExternalConsole().Initialize();
+			}
 			int entityId = Convert.ToInt32(this.data[0]);
 			Dictionary<string, object> config = (Dictionary<string, object>)this.data[1];
 			Dictionary<string, object> configData = (Dictionary<string, object>)this.data[2];
@@ -12,17 +16,23 @@
 			Singleton<ServerManager>.main.OnConfigurationEnded();
 			Messenger.Broadcast<bool>("configCompleted", ConfigurationCommand.initial);
 			ConfigurationCommand.initial = false;
-            // Setup
-            new ExternalConsole().Initialize();
-			new ExternalAssetManager().Initialize();
-			ExternalAssetManager eam = ExternalAssetManager.GetInstance();
-			eam.AutoCreateAssets();
-			ExternalConsole.Log("Asset Count", eam.loaded.Count.ToString());
-			Camera.current.gameObject.AddComponent<ExternalMusicLoader>();
-			Camera.current.gameObject.AddComponent<ExternalSpriteLoader>();
-			ExternalConsole.Button("Play Music", delegate {
-				ExternalMusicLoader.instance.PlayNextInQueue();
-			});
+			// Setup
+			if (ExternalAssetManager.instance == null) {
+				ExternalAssetManager eam = new ExternalAssetManager().Initialize();
+				eam.AutoCreateAssets();
+				string[] joystickNames = Input.GetJoystickNames();
+				for (int i = 0; i < joystickNames.Length; i++)
+				{
+					ExternalConsole.Log(joystickNames[i], "");
+				}
+				ExternalConsole.Log("Asset Count", eam.loaded.Count.ToString());
+				Camera.current.gameObject.AddComponent<ExternalControllerManager>();
+				Camera.current.gameObject.AddComponent<ExternalMusicLoader>();
+				Camera.current.gameObject.AddComponent<ExternalSpriteLoader>();
+				ExternalConsole.Button("Play Music", delegate {
+					ExternalMusicLoader.instance.PlayNextInQueue();
+				});
+			}
 		}
 		catch (Exception ex) {
 			Debug.Log("Configuration failed: " + ex.Message + " --- " + ex.StackTrace);
