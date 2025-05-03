@@ -14,15 +14,6 @@ public class ExternalControllerManager : MonoBehaviour {
 		this.usingGamepad = false;
 	}
 
-	public void Update() {
-		bool debug = true;
-		if (this.ControllerEnabled() && debug) {
-			ExternalConsole.Log("Left Stick", "X: " + this.LeftStick_X().ToString() + " Y: " + this.LeftStick_Y().ToString());
-			ExternalConsole.Log("Right Stick", "X: " + this.RightStick_X().ToString() + " Y: " + this.RightStick_Y().ToString());
-			ExternalConsole.Log("Triggers", "Left: " + this.LeftTrigger().ToString() + " Right: " + this.RightTrigger().ToString());
-		}
-	}
-
 	public static ExternalControllerManager GetInstance() {
 		return ExternalControllerManager.instance;
 	}
@@ -81,12 +72,26 @@ public class ExternalControllerManager : MonoBehaviour {
 		return this.LeftDown() || this.RightDown() || this.RightStick_X() > 0 || this.RightStick_Y() > 0;
 	}
 
-	public void StepPlayerControls() {
+	public void Update() {
+		bool debug = true;
 		if (Input.anyKeyDown) this.usingGamepad = false;
 		if (this.AnyGamepadInput()) this.usingGamepad = true;
 		if (this.RightDown()) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftDown);
 		if (this.RightUp()) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftUp);
 		ExternalConsole.Log("Gamepad Status", this.usingGamepad.ToString());
+		if (this.ControllerEnabled() && debug) {
+			ExternalConsole.Log("Left Stick", "X: " + this.LeftStick_X().ToString() + " Y: " + this.LeftStick_Y().ToString());
+			ExternalConsole.Log("Right Stick", "X: " + this.RightStick_X().ToString() + " Y: " + this.RightStick_Y().ToString());
+			ExternalConsole.Log("Triggers", "Left: " + this.LeftTrigger().ToString() + " Right: " + this.RightTrigger().ToString());
+		}
+	}
+
+	public void StepPlayerControls() {
+		if (!ReplaceableSingleton<Player>.main.IsAlive() && (Input.anyKeyDown || this.AnyGamepadInput()))
+			ReplaceableSingleton<Player>.main.Respawn();
+		if (GameManager.IsGame() && this.usingGamepad) {
+			Player.main;
+		}
 	}
 
 	public static ExternalControllerManager instance;
