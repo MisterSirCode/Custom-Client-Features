@@ -7,9 +7,6 @@ public class ExternalConsole {
 	}
 
 	public void Initialize() {
-		if (ReplaceableSingleton<Player>.main == null) {
-			return;
-		}
 		if (ExternalConsole.instance != null) {
 			return;
 		}
