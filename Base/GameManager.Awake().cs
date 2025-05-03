@@ -1,5 +1,4 @@
-	protected override void Awake()
-	{
+	protected override void Awake() {
 		if (PlayerPrefs.GetInt("resetPrefs") == 1) {
 			string @string = PlayerPrefs.GetString("grap_username");
 			string string2 = PlayerPrefs.GetString("grap_authToken");

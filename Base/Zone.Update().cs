@@ -1,5 +1,4 @@
-private void Update()
-{
+private void Update() {
     if (this._state == Zone.State.Ready) {
         this.Ready();
     }

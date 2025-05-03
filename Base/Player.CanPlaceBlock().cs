@@ -1,5 +1,4 @@
-public bool CanPlaceBlock(Vector2 blockPosition, out string failureReason)
-{
+public bool CanPlaceBlock(Vector2 blockPosition, out string failureReason) {
     failureReason = null;
     if ((new Vector2(blockPosition.x, -blockPosition.y) - (Vector2)this.avatarTransform.position + this.avatarBoxCollider.offset).magnitude > this.MaxPlacingDistance()) {
         failureReason = Locale.Text("block.too_far", null, null, null);

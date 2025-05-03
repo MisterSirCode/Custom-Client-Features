@@ -1,5 +1,4 @@
-private void CreateGeographyTexture(int zoneHeight, int[] surfaceArray)
-{
+private void CreateGeographyTexture(int zoneHeight, int[] surfaceArray) {
     string biome = ReplaceableSingleton<Zone>.main.biome;
     string[] colors;
     if (!(biome == "arctic")) {

@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExternalConsole
-{
-	public ExternalConsole()
-	{
+public class ExternalConsole {
+	public ExternalConsole() {
 	}
 
-	public void Initialize()
-	{
+	public void Initialize() {
 		if (ReplaceableSingleton<Player>.main == null) {
 			return;
 		}
@@ -21,13 +18,11 @@ public class ExternalConsole
         this.enabled = true;
 	}
 
-	public static ExternalConsole GetInstance()
-	{
+	public static ExternalConsole GetInstance() {
 		return ExternalConsole.instance;
 	}
 
-	public void Draw()
-	{
+	public void Draw() {
 		if (GUI.Button(this.visible ? new Rect(5f, 200f, 120f, 30f) : new Rect(5f, 200f, 30f, 30f), new GUIContent(this.visible ? "<color=#afa>Debug Console</color>" : "<color=#faa>x</color>"))) {
 			this.visible = !this.visible;
 		}
@@ -59,8 +54,7 @@ public class ExternalConsole
 		}
 	}
 
-	public static ExternalConsoleModule GetModule(string name) 
-	{
+	public static ExternalConsoleModule GetModule(string name) {
 		if (ExternalConsole.instance == null) {
 			return null;
 		}
@@ -72,16 +66,14 @@ public class ExternalConsole
 		return null;
 	}
 
-	public static void AddModule(ExternalConsoleModule module)
-	{
+	public static void AddModule(ExternalConsoleModule module) {
 		if (ExternalConsole.instance == null) {
 			return;
 		}
 		ExternalConsole.instance.modules.Add(module);
 	}
 
-	public static void Log(string name, string output) 
-	{
+	public static void Log(string name, string output) {
 		ExternalConsoleModule module = ExternalConsole.GetModule(name);
 		if (module != null) {
 			if (module.state) module.output = output;
@@ -92,8 +84,7 @@ public class ExternalConsole
 		ExternalConsole.AddModule(newModule);
 	}
 
-	public static void Button(string name, Action action)
-	{
+	public static void Button(string name, Action action) {
 		ExternalConsoleModule module = ExternalConsole.GetModule(name);
 		if (module != null) {
 			module.action = action;

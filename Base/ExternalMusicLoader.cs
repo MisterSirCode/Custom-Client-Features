@@ -5,12 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExternalMusicLoader : MonoBehaviour
-{
-	public void Start()
-	{
-		if (ExternalMusicLoader.instance != null)
-		{
+public class ExternalMusicLoader : MonoBehaviour {
+	public void Start() {
+		if (ExternalMusicLoader.instance != null) {
 			return;
 		}
 		ExternalMusicLoader.instance = this;
@@ -27,8 +24,7 @@ public class ExternalMusicLoader : MonoBehaviour
         this.queue = new List<ExternalAsset>();
 	}
 
-	public void Update()
-	{
+	public void Update() {
 		if (this.playLoop && GameManager.IsGame()) {
             if (this.waitingForNext) {
 				base.StartCoroutine(PlayNextInQueueWithDelay());
@@ -44,8 +40,7 @@ public class ExternalMusicLoader : MonoBehaviour
         if (!GameManager.IsGame()) this.controller.Stop();
 	}
 
-	public IEnumerator LoadAudioFile(string path)
-	{
+	public IEnumerator LoadAudioFile(string path) {
 		WWW www = new WWW(path);
 		yield return www;
 		try {
@@ -61,14 +56,12 @@ public class ExternalMusicLoader : MonoBehaviour
 		}
 	}
 
-    public void GenerateRandomQueue()
-    {
+    public void GenerateRandomQueue() {
         this.queue = new List<ExternalAsset>(this.assets);
         this.queue.Shuffle();
     }
 
-    public void PlayNextInQueue() 
-    {
+    public void PlayNextInQueue()  {
         if (this.queue.Count > 0) {
 		    base.StartCoroutine(this.LoadAudioFile(this.queue.First().GetRectifiedPath()));
             this.queue.RemoveAt(0);
@@ -78,8 +71,7 @@ public class ExternalMusicLoader : MonoBehaviour
         }
     }
 
-    public IEnumerator PlayNextInQueueWithDelay()
-    {
+    public IEnumerator PlayNextInQueueWithDelay() {
         yield return new WaitForSeconds(10);
         PlayNextInQueue();
         yield break;

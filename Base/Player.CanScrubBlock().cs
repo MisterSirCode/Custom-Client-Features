@@ -1,5 +1,4 @@
-public bool CanScrubBlock(Vector2 blockPosition, bool allowIneffectuality, out string failureReason, bool debug = false)
-{
+public bool CanScrubBlock(Vector2 blockPosition, bool allowIneffectuality, out string failureReason, bool debug = false) {
 	failureReason = null;
 	if (this.awesomeMode) {
 		return true;

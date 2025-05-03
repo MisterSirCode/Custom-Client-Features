@@ -1,5 +1,4 @@
-private void CheckGrounding()
-{
+private void CheckGrounding() {
     this.grounded = true;
     this.partiallyGrounded = false;
     this.collidingBlock = null;

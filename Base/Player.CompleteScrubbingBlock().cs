@@ -1,5 +1,4 @@
-public bool CompleteScrubbingBlock(ZoneBlock block)
-{
+public bool CompleteScrubbingBlock(ZoneBlock block) {
 	Item.Layer layer = block.ScrubbableLayer();
 	Item item = block.ItemByLayer(layer).RootItem();
 	Item primaryItem = this.primaryItem;

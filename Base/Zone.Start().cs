@@ -1,5 +1,4 @@
-	protected void Start()
-	{
+	protected void Start() {
 		this.mainCamera = Camera.main;
 		this._ecosystem = base.gameObject.AddComponent<Ecosystem>();
 		this.deathPositions = new List<Vector2>();

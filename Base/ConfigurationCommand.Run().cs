@@ -1,8 +1,6 @@
-	public override void Run()
-	{
+	public override void Run() {
 		try {
-			if (ExternalConsole.GetInstance() == null)
-			{
+			if (ExternalConsole.GetInstance() == null) {
 				new ExternalConsole().Initialize();
 				Camera.current.gameObject.AddComponent<ExternalControllerManager>();
 			}
@@ -22,8 +20,7 @@
 				ExternalAssetManager eam = new ExternalAssetManager().Initialize();
 				eam.AutoCreateAssets();
 				string[] joystickNames = Input.GetJoystickNames();
-				for (int i = 0; i < joystickNames.Length; i++)
-				{
+				for (int i = 0; i < joystickNames.Length; i++) {
 					ExternalConsole.Log(joystickNames[i], "");
 				}
 				ExternalConsole.Log("Asset Count", eam.loaded.Count.ToString());

@@ -5,12 +5,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExternalSpriteLoader : MonoBehaviour
-{
-	public void Start()
-	{
-		if (ExternalSpriteLoader.instance != null)
-		{
+public class ExternalSpriteLoader : MonoBehaviour {
+	public void Start() {
+		if (ExternalSpriteLoader.instance != null) {
 			return;
 		}
 		ExternalSpriteLoader.instance = this;
@@ -19,8 +16,7 @@ public class ExternalSpriteLoader : MonoBehaviour
         this.LoadAllSprites();
 	}
 
-	public IEnumerator LoadSpriteFile(ExternalAsset asset)
-	{
+	public IEnumerator LoadSpriteFile(ExternalAsset asset) {
 		WWW www = new WWW(asset.path);
 		yield return www;
 		try {
@@ -36,8 +32,7 @@ public class ExternalSpriteLoader : MonoBehaviour
 		}
 	}
 
-    public void LoadAllSprites()
-    {
+    public void LoadAllSprites() {
         this.sprites = new List<ExternalAsset>();
         foreach (ExternalAsset asset in this.assets) {
 		    ExternalConsole.Log("Testing Asset", asset.name); 
@@ -45,8 +40,7 @@ public class ExternalSpriteLoader : MonoBehaviour
         }
     }
 
-    public static Sprite GetSprite(string name) 
-    {
+    public static Sprite GetSprite(string name) {
         foreach (ExternalAsset asset in ExternalSpriteLoader.instance.assets) {
             if (asset.name == name) {
                 return (Sprite)asset.GetData();

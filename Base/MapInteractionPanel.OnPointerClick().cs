@@ -1,5 +1,4 @@
-public void OnPointerClick(PointerEventData eventData)
-{
+public void OnPointerClick(PointerEventData eventData) {
     Vector3 v = this.WorldClickPosition(eventData.pressPosition);
     MetaBlock metaBlock = ReplaceableSingleton<Zone>.main.meta.ClosestBlockInRange(v, 25f, Item.Use.Teleportable, "global");
     if (metaBlock != null) {

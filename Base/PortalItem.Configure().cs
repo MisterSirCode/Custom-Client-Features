@@ -1,5 +1,4 @@
-public void Configure(Dictionary<string, object> _config) 
-{
+public void Configure(Dictionary<string, object> _config)  {
 	this.config = _config;
 	string @string = this.config.GetString("activity", (!this.config.GetBool("pvp", false)) ? null : "PvP");
 	this.biomeIcon.sprite = GameGui.GetSprite("biome-" + this.config.GetString("biome"));		

@@ -1,5 +1,4 @@
-	public bool TryToScrubBlock(Vector2 blockPosition)
-	{
+	public bool TryToScrubBlock(Vector2 blockPosition) {
 		if (this.primaryItem == null || !this.primaryItem.IsScrubbingTool()) {
 			return false;
 		}

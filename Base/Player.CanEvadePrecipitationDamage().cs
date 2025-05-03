@@ -1,5 +1,4 @@
-	private bool CanEvadePrecipitationDamage(Item.Damage type)
-	{
+	private bool CanEvadePrecipitationDamage(Item.Damage type) {
 		if (this.AccessoryWithUse(Item.Use.Hazmat) != null) return true;
 		int num = this.AdjustedSkill("survival");
 		if (type == Item.Damage.Acid) {

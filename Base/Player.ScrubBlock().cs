@@ -1,5 +1,4 @@
-public bool ScrubBlock(Vector2 blockPosition, float miningDuration)
-{
+public bool ScrubBlock(Vector2 blockPosition, float miningDuration) {
 	if (!this.avatar.alive) {
 		return false;
 	}

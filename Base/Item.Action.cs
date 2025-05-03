@@ -1,5 +1,4 @@
-public enum Action
-{
+public enum Action {
 	None,
 	Mine,
 	Dig,

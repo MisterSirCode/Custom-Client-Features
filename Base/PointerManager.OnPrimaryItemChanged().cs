@@ -1,5 +1,4 @@
-private void OnPrimaryItemChanged(Item item) 
-{
+private void OnPrimaryItemChanged(Item item)  {
     if (item != null && (item.placeable || item.consumable)) {
         this.primaryItemPlaceable = true;
         if (item.tileable || item.spriteLayers == null || item.spriteLayers.Count == 0) {

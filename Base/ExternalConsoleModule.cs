@@ -1,17 +1,14 @@
 using System;
 
-public class ExternalConsoleModule
-{
-	public ExternalConsoleModule(string name, string type, bool state)
-	{
+public class ExternalConsoleModule {
+	public ExternalConsoleModule(string name, string type, bool state) {
 		this.name = name;
 		this.type = type;
 		this.state = state;
 		this.output = "";
 	}
 
-	public ExternalConsoleModule(string name, Action action)
-	{
+	public ExternalConsoleModule(string name, Action action) {
 		this.name = name;
 		this.type = "button";
 		this.state = true;
@@ -19,8 +16,7 @@ public class ExternalConsoleModule
 		this.action = action;
 	}
 
-	public void Toggle()
-	{
+	public void Toggle() {
 		this.state = !this.state;
 	}
 

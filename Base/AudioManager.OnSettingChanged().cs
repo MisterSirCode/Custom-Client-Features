@@ -1,5 +1,4 @@
-	private void OnSettingChanged(string name, object val)
-	{
+	private void OnSettingChanged(string name, object val) {
 		if (name != null) {
 			if (!(name == "sfxVolume")) {
 				if (name == "musicVolume") {

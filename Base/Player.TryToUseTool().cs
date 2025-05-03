@@ -1,5 +1,4 @@
-	public void TryToUseTool(Vector2 blockPosition, Vector2 worldPosition)
-	{
+	public void TryToUseTool(Vector2 blockPosition, Vector2 worldPosition) {
 		if (this.IsPrimaryItemGun()) {
 			this.TryToShoot(worldPosition);
 			return;

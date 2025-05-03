@@ -1,5 +1,4 @@
-public void OnCollideWithEntity(Entity entity)
-{
+public void OnCollideWithEntity(Entity entity) {
     Entity attacker = entity;
     if (entity is EntityBullet) {
         entity.rigidbodyVelocity *= 0.05f;
