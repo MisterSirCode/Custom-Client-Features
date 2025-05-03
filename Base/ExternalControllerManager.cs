@@ -12,6 +12,7 @@ public class ExternalControllerManager : MonoBehaviour {
 		ExternalControllerManager.instance = this;
 		this.deadzone = 0.1f;
 		this.usingGamepad = false;
+		this.rightNeedsUp = false;
 	}
 
 	public static ExternalControllerManager GetInstance() {
@@ -73,13 +74,11 @@ public class ExternalControllerManager : MonoBehaviour {
 	}
 
 	public void Update() {
-		bool debug = true;
 		if (Input.anyKeyDown) this.usingGamepad = false;
 		if (this.AnyGamepadInput()) this.usingGamepad = true;
-		if (this.RightDown()) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftDown);
-		if (this.RightUp()) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftUp);
-		ExternalConsole.Log("Gamepad Status", this.usingGamepad.ToString());
-		if (this.ControllerEnabled() && debug) {
+		if (this.ControllerEnabled()) {
+			if (this.RightDown()) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftDown);
+			if (this.RightUp() && this.rightNeedsUp) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftUp);
 			ExternalConsole.Log("Left Stick", "X: " + this.LeftStick_X().ToString() + " Y: " + this.LeftStick_Y().ToString());
 			ExternalConsole.Log("Right Stick", "X: " + this.RightStick_X().ToString() + " Y: " + this.RightStick_Y().ToString());
 			ExternalConsole.Log("Triggers", "Left: " + this.LeftTrigger().ToString() + " Right: " + this.RightTrigger().ToString());
@@ -97,4 +96,5 @@ public class ExternalControllerManager : MonoBehaviour {
 	public static ExternalControllerManager instance;
 	public float deadzone;
 	public bool usingGamepad;
+	public bool rightNeedsUp;
 }
