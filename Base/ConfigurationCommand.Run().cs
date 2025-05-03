@@ -1,9 +1,5 @@
 	public override void Run() {
 		try {
-			if (ExternalConsole.GetInstance() == null) {
-				new ExternalConsole().Initialize();
-				Camera.current.gameObject.AddComponent<ExternalControllerManager>();
-			}
 			int entityId = Convert.ToInt32(this.data[0]);
 			Dictionary<string, object> config = (Dictionary<string, object>)this.data[1];
 			Dictionary<string, object> configData = (Dictionary<string, object>)this.data[2];
