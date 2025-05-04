@@ -15,8 +15,7 @@ protected override void Awake() {
 		GameObject gameObject = new GameObject();
 		gameObject.AddComponent<ExternalSpriteLoader>();
 		global::UnityEngine.Object.Instantiate<GameObject>(gameObject);
-		ExternalConsole.Button("Play Music", delegate
-		{
+		ExternalConsole.Button("Play Music", delegate {
 			ExternalMusicLoader.instance.PlayNextInQueue();
 		});
 	}

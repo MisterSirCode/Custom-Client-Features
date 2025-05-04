@@ -26,7 +26,7 @@ public class ExternalConsole {
 		if (this.visible) {
 			int rows = 0;
 			foreach(ExternalConsoleModule module in this.modules) {
-				int width = 50 + (int)Mathf.Clamp((float)(module.name.Length + " - locked: ".Length + module.output.Length) * 8f, 200f, 1000f);
+				int width = 50 + (int)Mathf.Clamp((float)(module.name.Length + " - locked: ".Length + module.output.Length) * 8f, 200f, 1500f);
 				try {
 					if (module.type == "value") {
 						if (GUI.Button(new Rect(5f, 200f + (float)((rows + 1) * 35), width, 30f), new GUIContent(module.name + (module.state ? " - <color=#afa>Active</color>: " : " - <color=#faa>Locked</color>: ") + module.output))) {
@@ -79,6 +79,12 @@ public class ExternalConsole {
 		ExternalConsoleModule newModule = new ExternalConsoleModule(name, "value", true);
 		newModule.output = output;
 		ExternalConsole.AddModule(newModule);
+	}
+
+	public static void HandleException(string name, Exception err) {
+		ExternalConsole.Log(name + " Message", err.Message);
+		ExternalConsole.Log(name + " Stack", err.StackTrace);
+		ExternalConsole.Log(name + " Source", err.Source);
 	}
 
 	public static void Button(string name, Action action) {
