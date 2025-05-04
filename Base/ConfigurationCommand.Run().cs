@@ -12,20 +12,7 @@
 			Messenger.Broadcast<bool>("configCompleted", ConfigurationCommand.initial);
 			ConfigurationCommand.initial = false;
 			// Setup
-			if (ExternalAssetManager.instance == null) {
-				ExternalAssetManager eam = new ExternalAssetManager().Initialize();
-				eam.AutoCreateAssets();
-				string[] joystickNames = Input.GetJoystickNames();
-				for (int i = 0; i < joystickNames.Length; i++) {
-					ExternalConsole.Log(joystickNames[i], "");
-				}
-				ExternalConsole.Log("Asset Count", eam.loaded.Count.ToString());
-				Camera.current.gameObject.AddComponent<ExternalMusicLoader>();
-				Camera.current.gameObject.AddComponent<ExternalSpriteLoader>();
-				ExternalConsole.Button("Play Music", delegate {
-					ExternalMusicLoader.instance.PlayNextInQueue();
-				});
-			}
+			if (ExternalMusicLoader.instance == null) Camera.current.gameObject.AddComponent<ExternalSpriteLoader>();
 		}
 		catch (Exception ex) {
 			Debug.Log("Configuration failed: " + ex.Message + " --- " + ex.StackTrace);

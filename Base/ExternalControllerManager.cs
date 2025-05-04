@@ -93,6 +93,10 @@ public class ExternalControllerManager : MonoBehaviour {
 		}
 	}
 
+	public void Awake() {
+		DontDestroyOnLoad(this.gameObject);
+	}
+
 	public static ExternalControllerManager instance;
 	public float deadzone;
 	public bool usingGamepad;

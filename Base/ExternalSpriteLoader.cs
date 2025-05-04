@@ -12,8 +12,11 @@ public class ExternalSpriteLoader : MonoBehaviour {
 		}
 		ExternalSpriteLoader.instance = this;
 		this.assets = ExternalAssetManager.GetInstance().GetAssetsOfType("sprite");
-		ExternalConsole.Log("Begin Asset Loading", this.assets.Count.ToString()); 
         this.LoadAllSprites();
+	}
+
+	public void Awake() {
+		DontDestroyOnLoad(this.gameObject);
 	}
 
 	public IEnumerator LoadSpriteFile(ExternalAsset asset) {
@@ -23,7 +26,7 @@ public class ExternalSpriteLoader : MonoBehaviour {
             Texture2D texture = www.texture;
 			//ExternalConsole.Log("Texture Size (KB)", Mathf.Round((float)www.bytesDownloaded / 1000f).ToString());
             asset.loaded = true;
-			asset.SetData(Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0,0)));
+			asset.SetData(Sprite.Create(texture, new Rect(0f, 0f, (float)texture.width, (float)texture.height), new Vector2(0f, 0f)));
             this.sprites.Add(asset);
 			www.Dispose();
 			yield break;
@@ -35,7 +38,6 @@ public class ExternalSpriteLoader : MonoBehaviour {
     public void LoadAllSprites() {
         this.sprites = new List<ExternalAsset>();
         foreach (ExternalAsset asset in this.assets) {
-		    ExternalConsole.Log("Testing Asset", asset.name); 
             base.StartCoroutine(this.LoadSpriteFile(asset));
         }
     }
