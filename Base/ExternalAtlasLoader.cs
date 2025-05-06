@@ -6,18 +6,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ExternalAtlasLoader : MonoBehaviour {
-	public struct ExternalAtlas {
-        public ExternalAtlas(string name, ExternalAsset image, ExternalAsset text) {
-			this.name = name;
-            this.sprite = image;
-            this.atlas = text;
-        }
-		public string name { get; set; }
-        public ExternalAsset sprite { get; }
-        public ExternalAsset atlas { get; }
-        public override string ToString() => $"Atlas ${name} (Image {sprite.name}, Text {atlas.name})";
-    }
-
 	public void Start() {
 		if (ExternalAtlasLoader.instance != null) {
 			return;
@@ -26,6 +14,7 @@ public class ExternalAtlasLoader : MonoBehaviour {
 		this.assets = ExternalAssetManager.GetInstance().GetAssetsOfType("atlas");
         this.atlasImages = new List<ExternalAsset>();
         this.atlasTexts = new List<ExternalAsset>();
+		this.atlases = new List<ExternalAtlas>();
         this.LoadAllAtlases();
 	}
 
@@ -69,9 +58,11 @@ public class ExternalAtlasLoader : MonoBehaviour {
 		yield return base.StartCoroutine(this.WaitForSomeCoroutines(ienumerators));
 		foreach (ExternalAsset text in this.atlasTexts) {
             try {
-                ExternalAsset match = this.atlasImages.Find(image => image.name == text.name);
-                ExternalAtlas newAtlas = new ExternalAtlas(text.name, match, text);
-                this.atlases.Add(newAtlas);
+				ExternalAsset match = this.atlasImages.Find((ExternalAsset image) => image.name == text.name);
+                if (match != null) {
+                    ExternalAtlas newAtlas = new ExternalAtlas(text.name, match, text);
+                    this.atlases.Add(newAtlas);
+                }
             } catch(Exception err) {
                 ExternalConsole.HandleException("Atlas Loader Error", err);
             }
@@ -81,6 +72,7 @@ public class ExternalAtlasLoader : MonoBehaviour {
     public void LoadAllAtlases() {
         this.atlasImages = new List<ExternalAsset>();
         this.atlasTexts = new List<ExternalAsset>();
+		this.atlases = new List<ExternalAtlas>();
 		List<IEnumerator> list = new List<IEnumerator>();
         foreach (ExternalAsset asset in this.assets) {
 			list.Add(this.LoadAtlasFile(asset));
@@ -92,5 +84,5 @@ public class ExternalAtlasLoader : MonoBehaviour {
     public List<ExternalAsset> assets;
     public List<ExternalAsset> atlasImages;
     public List<ExternalAsset> atlasTexts;
-	public List<ExternalAtlasLoader.ExternalAtlas> atlases;
+	public List<ExternalAtlas> atlases;
 }
