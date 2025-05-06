@@ -1,6 +1,5 @@
 private void OnSpriteChanged(object spriteObj) {
     string text = (string)spriteObj;
-    ExternalConsole.Log(text, spriteObj.ToString());
     if (text != null && text.Length > 0) {
         if (text.Contains("crow-5")) {
             this.image.sprite = ExternalSpriteLoader.GetSprite("crow-5");
