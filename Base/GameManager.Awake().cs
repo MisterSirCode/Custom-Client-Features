@@ -14,6 +14,7 @@ protected override void Awake() {
 		ExternalConsole.Log("Asset Count", instance.loaded.Count.ToString());
 		GameObject gameObject = new GameObject();
 		gameObject.AddComponent<ExternalSpriteLoader>();
+		gameObject.AddComponent<ExternalAtlasLoader>();
 		global::UnityEngine.Object.Instantiate<GameObject>(gameObject);
 		ExternalConsole.Button("Play Music", delegate {
 			ExternalMusicLoader.instance.PlayNextInQueue();
