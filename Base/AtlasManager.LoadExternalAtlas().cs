@@ -3,6 +3,7 @@ public Texture2D LoadExternalAtlas(ExternalAtlas atlas) {
     bool masked = false;
     string materialName = "Graphics/WorldSpriteMaterial";
     string name = atlas.name;
+	if (name == "inventory") materialName = "Graphics/GuiSpriteMaterial";
     GameObject gameObject = new GameObject(name);
     gameObject.transform.parent = base.transform;
 	TextAsset textAsset = atlas.atlas.data as TextAsset;
