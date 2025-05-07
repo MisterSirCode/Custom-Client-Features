@@ -22,7 +22,7 @@ public Texture2D LoadExternalAtlas(ExternalAtlas atlas) {
         material2 = (Material)global::UnityEngine.Object.Instantiate(Resources.Load("Graphics/WorldShadowMaterial"));
         this.materials[name + "-shadow"] = material2;
     }
-		Texture2D texture2D = ((Sprite)atlas.sprite.data).texture;
+	Texture2D texture2D = ((Sprite)atlas.sprite.data).texture;
     tk2dSpriteCollectionSize tk2dSpriteCollectionSize = tk2dSpriteCollectionSize.PixelsPerMeter(this.BaseBlockScale());
     tk2dSpriteCollectionData tk2dSpriteCollectionData = tk2dSpriteCollectionData.CreateFromTexturePacker(tk2dSpriteCollectionSize, textAsset.text, texture2D);
     tk2dSpriteCollectionData.material = material;
