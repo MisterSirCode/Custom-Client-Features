@@ -1,5 +1,7 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class ExternalConsole {
@@ -81,6 +83,10 @@ public class ExternalConsole {
 		ExternalConsole.AddModule(newModule);
 	}
 
+	public static void Log(string name, string output) {
+		ExternalConsole.Log(name, (object)output);
+	}
+
 	public static void HandleException(string name, Exception err) {
 		ExternalConsole.Log(name + " Message", err.Message);
 		ExternalConsole.Log(name + " Stack", err.StackTrace);
@@ -107,6 +113,18 @@ public class ExternalConsole {
 		ExternalConsole.Button("Copy " + name, () => {
 			GUIUtility.systemCopyBuffer = obj.ToString();
 		});
+	}
+
+	public static string Concat(Dictionary<string, object> dict) {
+		return String.Join(", ", dict.Keys.ToList<string>().ToArray());
+	}
+
+	public static string Concat(List<string> list) {
+		return String.Join(", ", list.ToArray());
+	}
+
+	public static string Concat(string[] array) {
+		return String.Join(", ", array);
 	}
 
 	public bool visible;
