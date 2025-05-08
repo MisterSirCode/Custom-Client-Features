@@ -1,4 +1,8 @@
 public Texture2D LoadExternalAtlas(ExternalAtlas atlas, bool loadTexture, bool masked, string materialName = "Graphics/WorldSpriteMaterial") {
+    if (atlas.name.Contains("_gui")) {
+        materialName = "Graphics/GuiSpriteMaterial";
+        atlas.name = atlas.name.Replace("_gui", "");
+    }
     string name = atlas.name;
 	bool flag = name.Contains("classic");
 	new GameObject(name).transform.parent = base.transform;
