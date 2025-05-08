@@ -1,7 +1,12 @@
-public Texture2D LoadExternalAtlas(ExternalAtlas atlas, bool loadTexture, bool masked, string materialName = "Graphics/WorldSpriteMaterial") {
+public Texture2D LoadExternalAtlas(ExternalAtlas atlas, string materialName = "Graphics/WorldSpriteMaterial") {
     if (atlas.name.Contains("_gui")) {
         materialName = "Graphics/GuiSpriteMaterial";
         atlas.name = atlas.name.Replace("_gui", "");
+    }
+	bool masked = false;
+	if (atlas.name.Contains("_masked")) {
+        masked = true;
+        atlas.name = atlas.name.Replace("_masked", "");
     }
     string name = atlas.name;
 	bool flag = name.Contains("classic");
