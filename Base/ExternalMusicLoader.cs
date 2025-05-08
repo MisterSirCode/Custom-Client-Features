@@ -19,7 +19,7 @@ public class ExternalMusicLoader : MonoBehaviour {
 			this.controller.volume = 1f;
         this.waitingForNext = true;
         this.waitingForSong = true;
-        this.playLoop = false;
+        this.playLoop = true;
 		this.assets = ExternalAssetManager.GetInstance().GetAssetsOfType("music");
         this.queue = new List<ExternalAsset>();
 	}

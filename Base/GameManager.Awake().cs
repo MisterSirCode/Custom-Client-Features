@@ -16,9 +16,6 @@ protected override void Awake() {
 		gameObject.AddComponent<ExternalSpriteLoader>();
 		gameObject.AddComponent<ExternalAtlasLoader>();
 		global::UnityEngine.Object.Instantiate<GameObject>(gameObject);
-		ExternalConsole.Button("Play Music", delegate {
-			ExternalMusicLoader.instance.PlayNextInQueue();
-		});
 	}
 	if (PlayerPrefs.GetInt("resetPrefs") == 1) {
 		string @string = PlayerPrefs.GetString("grap_username");

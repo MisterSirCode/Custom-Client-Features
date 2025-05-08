@@ -36,7 +36,7 @@ public class ExternalAtlasLoader : MonoBehaviour {
 		WWW www = new WWW(asset.path);
 		yield return www;
 		try {
-            if (asset.path.Contains(".txt")) {
+            if (asset.path.Contains(".tk2d")) {
                 asset.loaded = true;
                 asset.SetData(new TextAsset(www.text));
                 this.atlasTexts.Add(asset);
@@ -67,6 +67,8 @@ public class ExternalAtlasLoader : MonoBehaviour {
                 ExternalConsole.HandleException("Atlas Loader Error", err);
             }
 		}
+		ExternalConsole.Log("Atlases Loaded", this.atlases.Count.ToString());
+		Singleton<AtlasManager>.main.LoadAtlases();
 	}
 
     public void LoadAllAtlases() {
