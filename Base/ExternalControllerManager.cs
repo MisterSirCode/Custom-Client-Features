@@ -10,9 +10,6 @@ public class ExternalControllerManager : MonoBehaviour {
 			return;
 		}
 		ExternalControllerManager.instance = this;
-		this.deadzone = 0.1f;
-		this.usingGamepad = false;
-		this.rightNeedsUp = false;
 	}
 
 	public static ExternalControllerManager GetInstance() {
@@ -69,16 +66,28 @@ public class ExternalControllerManager : MonoBehaviour {
 		return this.RightTrigger() <= 0.25f;
 	}
 
-	public bool AnyGamepadInput() {
-		return this.LeftDown() || this.RightDown() || this.RightStick_X() > 0 || this.RightStick_Y() > 0;
+	public bool AnyGamepadButtons() {
+		return this.LeftDown() || this.RightDown();
+	}
+
+	public bool AnyGamepadAxis() {
+		return this.LeftDown() || this.RightDown() || this.RightStick_X() != 0 || this.RightStick_Y() != 0;
 	}
 
 	public void Update() {
-		if (Input.anyKeyDown) this.usingGamepad = false;
-		if (this.AnyGamepadInput()) this.usingGamepad = true;
+		if (Input.anyKeyDown && !this.AnyGamepadAxis()) this.usingGamepad = false;
+		if (this.AnyGamepadAxis()) this.usingGamepad = true;
 		if (this.ControllerEnabled()) {
-			if (this.RightDown()) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftDown);
+			if (this.RightDown()) {
+				ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftDown);
+				this.rightNeedsUp = true;
+			}
 			if (this.RightUp() && this.rightNeedsUp) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftUp);
+			if (this.LeftDown()) {
+				ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.RightDown);
+				this.leftNeedsUp = true;
+			}
+			if (this.LeftUp() && this.leftNeedsUp) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.RightUp);
 			ExternalConsole.Log("Left Stick", "X: " + this.LeftStick_X().ToString() + " Y: " + this.LeftStick_Y().ToString());
 			ExternalConsole.Log("Right Stick", "X: " + this.RightStick_X().ToString() + " Y: " + this.RightStick_Y().ToString());
 			ExternalConsole.Log("Triggers", "Left: " + this.LeftTrigger().ToString() + " Right: " + this.RightTrigger().ToString());
@@ -86,19 +95,33 @@ public class ExternalControllerManager : MonoBehaviour {
 	}
 
 	public void StepPlayerControls() {
-		if (!ReplaceableSingleton<Player>.main.IsAlive() && (Input.anyKeyDown || this.AnyGamepadInput()))
+		if (this.deathPanel == null) {
+			this.deathPanel = GameObject.Find("/Canvas/Screen Panel/Death Panel");
+		}
+		if (ReplaceableSingleton<Player>.main.IsAlive() && this.deathPanel.active) {
+			this.deathPanel.SetActive(false);
+		}
+		if (!ReplaceableSingleton<Player>.main.IsAlive() && (Input.anyKeyDown || this.AnyGamepadButtons())) {
 			ReplaceableSingleton<Player>.main.Respawn();
+			this.deathPanel.SetActive(false);
+		}
 		if (GameManager.IsGame() && this.usingGamepad) {
 			Player.main;
 		}
 	}
 
 	public void Awake() {
+		this.deadzone = 0.1f;
+		this.usingGamepad = false;
+		this.rightNeedsUp = false;
+		this.leftNeedsUp = false;
 		DontDestroyOnLoad(this.gameObject);
 	}
 
 	public static ExternalControllerManager instance;
+	public GameObject deathPanel;
 	public float deadzone;
 	public bool usingGamepad;
 	public bool rightNeedsUp;
+	public bool leftNeedsUp;
 }
