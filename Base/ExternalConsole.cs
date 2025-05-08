@@ -70,14 +70,14 @@ public class ExternalConsole {
 		ExternalConsole.instance.modules.Add(module);
 	}
 
-	public static void Log(string name, string output) {
+	public static void Log(string name, object output) {
 		ExternalConsoleModule module = ExternalConsole.GetModule(name);
 		if (module != null) {
-			if (module.state) module.output = output;
+			if (module.state) module.output = output.ToString();
 			return;
 		}
 		ExternalConsoleModule newModule = new ExternalConsoleModule(name, "value", true);
-		newModule.output = output;
+		newModule.output = output.ToString();
 		ExternalConsole.AddModule(newModule);
 	}
 
@@ -95,6 +95,18 @@ public class ExternalConsole {
 		}
 		ExternalConsoleModule newModule = new ExternalConsoleModule(name, action);
 		ExternalConsole.AddModule(newModule);
+	}
+
+	public static void CopyButton(string name, Func<object> function) {
+		ExternalConsole.Button("Copy " + name, () => {
+			GUIUtility.systemCopyBuffer = function().ToString();
+		});
+	}
+
+	public static void CopyButton(string name, object obj) {
+		ExternalConsole.Button("Copy " + name, () => {
+			GUIUtility.systemCopyBuffer = obj.ToString();
+		});
 	}
 
 	public bool visible;
