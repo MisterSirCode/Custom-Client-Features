@@ -78,16 +78,22 @@ public class ExternalControllerManager : MonoBehaviour {
 		if (Input.anyKeyDown && !this.AnyGamepadAxis()) this.usingGamepad = false;
 		if (this.AnyGamepadAxis()) this.usingGamepad = true;
 		if (this.ControllerEnabled()) {
-			if (this.RightDown()) {
+			if (this.RightDown() && !this.rightNeedsUp) {
 				ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftDown);
 				this.rightNeedsUp = true;
 			}
-			if (this.RightUp() && this.rightNeedsUp) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftUp);
-			if (this.LeftDown()) {
+			if (this.RightUp() && this.rightNeedsUp) {
+				ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.LeftUp);
+				this.rightNeedsUp = false;
+			}
+			if (this.LeftDown() && !this.leftNeedsUp) {
 				ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.RightDown);
 				this.leftNeedsUp = true;
 			}
-			if (this.LeftUp() && this.leftNeedsUp) ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.RightUp);
+			if (this.LeftUp() && this.leftNeedsUp) {
+				ExternalMouseOperations.MouseEvent(ExternalMouseOperations.MouseEventFlags.RightUp);
+				this.leftNeedsUp = false;
+			}
 			ExternalConsole.Log("Left Stick", "X: " + this.LeftStick_X().ToString() + " Y: " + this.LeftStick_Y().ToString());
 			ExternalConsole.Log("Right Stick", "X: " + this.RightStick_X().ToString() + " Y: " + this.RightStick_Y().ToString());
 			ExternalConsole.Log("Triggers", "Left: " + this.LeftTrigger().ToString() + " Right: " + this.RightTrigger().ToString());
@@ -104,21 +110,6 @@ public class ExternalControllerManager : MonoBehaviour {
 		if (!ReplaceableSingleton<Player>.main.IsAlive() && (Input.anyKeyDown || this.AnyGamepadButtons())) {
 			ReplaceableSingleton<Player>.main.Respawn();
 			this.deathPanel.SetActive(false);
-		}
-		if (GameManager.IsGame() && this.usingGamepad) {
-			if (this.AnyGamepadButtons()) {
-				Vector2 playerPos = ReplaceableSingleton<Player>.main.worldPosition;
-				Vector2 screenPos = ReplaceableSingleton<Zone>.main.WorldToScreenPosition(playerPos);
-				Vector2 direction = new Vector2(this.RightStick_X(), this.RightStick_Y()).normalized;
-				ExternalConsole.Log("Aiming Direction", direction);
-				foreach (Vector2 vector2 in Player.main.RaycastOrigins()) {
-					if (this.RightDown()) {
-						ReplaceableSingleton<Player>.main.TryToInteractAtScreenPosition(screenPos);
-					} else if (this.LeftDown()) {
-						ReplaceableSingleton<Player>.main.TryToInteractAtScreenPosition(screenPos);
-					}
-				}
-			}
 		}
 	}
 
