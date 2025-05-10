@@ -106,7 +106,20 @@ public class ExternalControllerManager : MonoBehaviour {
 			this.deathPanel.SetActive(false);
 		}
 		if (GameManager.IsGame() && this.usingGamepad) {
-			Player.main;
+			if (this.AnyGamepadButtons()) {
+				Vector2 playerPos = ReplaceableSingleton<Player>.main.worldPosition;
+				Vector2 screenPos = ReplaceableSingleton<Zone>.main.WorldToScreenPosition(playerPos);
+				Vector2 direction = new Vector2(this.RightStick_X(), this.RightStick_Y()).normalized;
+				ExternalConsole.Log("Aiming Direction", direction);
+				foreach (Vector2 vector2 in Player.main.RaycastOrigins()) {
+					if (this.RightDown()) {
+						this.CheckMiningArrow(direction);
+						ReplaceableSingleton<Player>.main.TryToInteractAtScreenPosition(screenPos);
+					} else if (this.LeftDown()) {
+						ReplaceableSingleton<Player>.main.TryToInteractAtScreenPosition(screenPos);
+					}
+				}
+			}
 		}
 	}
 
@@ -120,6 +133,8 @@ public class ExternalControllerManager : MonoBehaviour {
 
 	public static ExternalControllerManager instance;
 	public GameObject deathPanel;
+	public GameObject miningArrow;
+	public GameObject miningArrowHost;
 	public float deadzone;
 	public bool usingGamepad;
 	public bool rightNeedsUp;
