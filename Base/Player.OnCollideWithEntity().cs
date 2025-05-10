@@ -1,7 +1,7 @@
 public void OnCollideWithEntity(Entity entity) {
     Entity attacker = entity;
     if (entity is EntityBullet) {
-        entity.rigidbodyVelocity *= 0.05f;
+        entity.rigidbodyVelocity *= 0.2f;
         attacker = ((EntityBullet)entity).parentEntity;
     }
     if (this.movement == Player.Movement.Stomping) {
