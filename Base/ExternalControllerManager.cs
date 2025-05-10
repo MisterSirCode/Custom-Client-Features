@@ -113,7 +113,6 @@ public class ExternalControllerManager : MonoBehaviour {
 				ExternalConsole.Log("Aiming Direction", direction);
 				foreach (Vector2 vector2 in Player.main.RaycastOrigins()) {
 					if (this.RightDown()) {
-						this.CheckMiningArrow(direction);
 						ReplaceableSingleton<Player>.main.TryToInteractAtScreenPosition(screenPos);
 					} else if (this.LeftDown()) {
 						ReplaceableSingleton<Player>.main.TryToInteractAtScreenPosition(screenPos);
