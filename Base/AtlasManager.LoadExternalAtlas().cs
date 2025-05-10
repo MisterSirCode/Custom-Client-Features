@@ -30,8 +30,7 @@ public Texture2D LoadExternalAtlas(ExternalAtlas atlas, string materialName = "G
     this.textures[name] = texture2D;
     Texture2D texture2D2 = texture2D;
     this.materials[name].mainTexture = texture2D2;
-    if (this.materials.ContainsKey(name + "-shadow"))
-    {
+    if (this.materials.ContainsKey(name + "-shadow")) {
         this.materials[name + "-shadow"].mainTexture = texture2D2;
     }
 	tk2dSpriteCollectionData tk2dSpriteCollectionData = tk2dSpriteCollectionData.CreateFromTexturePacker(tk2dSpriteCollectionSize.PixelsPerMeter(this.BaseBlockScale()), textAsset.text, texture2D);
@@ -53,8 +52,7 @@ public Texture2D LoadExternalAtlas(ExternalAtlas atlas, string materialName = "G
 		this.spriteCollections[name2] = tk2dSpriteCollectionData;
 		new Vector2(tk2dSpriteDefinition.rect.xMin / (float)num, 1f - tk2dSpriteDefinition.rect.yMin / (float)num2);
 		new Vector2(tk2dSpriteDefinition.rect.xMax / (float)num, 1f - tk2dSpriteDefinition.rect.yMax / (float)num2);
-		if (flag)
-		{
+		if (flag) {
 			string text = name2.Replace("classic/", string.Empty);
 			this.classicSprites[text] = tk2dSpriteDefinition;
 			this.classicSpriteCollections[text] = tk2dSpriteCollectionData;
