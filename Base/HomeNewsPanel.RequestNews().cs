@@ -2,13 +2,15 @@ private void RequestNews() {
     Action<WWWRequest> action = delegate(WWWRequest req) {
         if (req.response != null) {
             this.LoadNews(req.response.GetList("posts"));
-            if (req.response.GetString("beta_title") != null) {
-                this.betaPanelBanner.GetComponent<Text>().text = req.response.GetString("beta_title");
-                this.betaPanelContent.GetComponent<Text>().text = req.response.GetString("beta_content");
-                if (req.response.GetString("beta_button") != null) {
-                    this.betaPanelButtonText.GetComponent<Text>().text = req.response.GetString("beta_button");
+            if (req.response.GetDictionary("beta") != null) {
+                Dictionary<string, object> dict = req.response.GetDictionary("beta");
+                this.betaPanelBanner.GetComponent<Text>().text = (string)dict["title"];
+                this.betaPanelContent.GetComponent<Text>().text = (string)dict["title"];
+                if (dict["button"] != null) {
+					Dictionary<string, object> btn = dict["button"] as Dictionary<string, object>;
+                    this.betaPanelButtonText.GetComponent<Text>().text = (string)btn["title"];
                     this.betaPanelButton.active = true;
-                    this.betaPanelButton.GetComponent<Hyperlink>().url = req.response.GetString("beta_hyperlink");
+                    this.betaPanelButton.GetComponent<Hyperlink>().url = (string)btn["url"];
                 }
             }
         }
