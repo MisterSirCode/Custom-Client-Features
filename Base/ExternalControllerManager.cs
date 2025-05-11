@@ -105,6 +105,18 @@ public class ExternalControllerManager : MonoBehaviour {
 		if (this.deathPanel == null) {
 			this.deathPanel = GameObject.Find("/Canvas/Screen Panel/Death Panel");
 		}
+		if (this.chatButton == null) {
+			this.chatButton = GameObject.Find("/Canvas/HUD/Chat (Desktop)");
+		} else {
+			this.chatButton.SetActive(true);
+		}
+		if (this.mapButton == null) {
+			this.mapButton = GameObject.Find("/Canvas/HUD/Map Button (Desktop)");
+		} else {
+			this.mapButton.SetActive(true);
+		}
+		this.chatButton.SetActive(true);
+		this.mapButton.SetActive(true);
 		if (ReplaceableSingleton<Player>.main.IsAlive() && this.deathPanel.active) {
 			this.deathPanel.SetActive(false);
 		}
@@ -124,6 +136,8 @@ public class ExternalControllerManager : MonoBehaviour {
 
 	public static ExternalControllerManager instance;
 	public GameObject deathPanel;
+	public GameObject chatButton;
+	public GameObject mapButton;
 	public GameObject miningArrow;
 	public GameObject miningArrowHost;
 	public float deadzone;
