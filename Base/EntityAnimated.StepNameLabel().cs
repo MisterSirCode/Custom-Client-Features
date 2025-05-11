@@ -1,6 +1,7 @@
 private void StepNameLabel(Rect screenRect) {
     if (this.nameLabel != null) {
         float num = ReplaceableSingleton<CameraManager>.main.lightingCamera.orthographicSize / 6f;
+		if (GameManager.IsSteamdeck()) num *= 3f;
         this.nameLabel._gameObject.transform.localScale = new Vector3(num, num, 1f);
         if (this.IsVisible()) {
             BoxCollider2D boxCollider2D = (BoxCollider2D)this._collider2D;
@@ -13,7 +14,7 @@ private void StepNameLabel(Rect screenRect) {
             Vector3 vector = ReplaceableSingleton<Zone>.main.WorldToScreenPosition(this._transform.position);
             Intersection intersection = screenRect.SegmentIntersection(new Segment(screenRect.center, vector));
             this.nameLabel.position = ReplaceableSingleton<Zone>.main.ScreenToWorldPosition(intersection.point);
-            this.distance = new Vector2(ReplaceableSingleton<Zone>.main.cameraRect.center.x, -ReplaceableSingleton<Zone>.main.cameraRect.center.y) - this._transform.position;
+            this.distance = new Vector2(ReplaceableSingleton<Zone>.main.cameraRect.center.x, -ReplaceableSingleton<Zone>.main.cameraRect.center.y) - (Vector2)this._transform.position;
             this.nameArrowAngle = Mathf.LerpAngle(this.nameArrowAngle, Mathf.Atan2(this.distance.y, this.distance.x) * 57.29578f, 0.2f);
             this.nameLabel.arrowRotation = this.nameArrowAngle;
             this.nameLabel.offscreen = true;

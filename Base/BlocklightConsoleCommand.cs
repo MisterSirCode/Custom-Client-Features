@@ -20,5 +20,5 @@ public class BlocklightConsoleCommand : ConsoleCommand {
 		return false;
 	}
 
-    public static Color globalColorOverride;
+    public static Color globalColorOverride = new Color(1f, 1f, 1f, 1f);
 }
