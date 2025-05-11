@@ -75,6 +75,7 @@ public class ExternalControllerManager : MonoBehaviour {
 	}
 
 	public void Update() {
+		if (Input.GetKeyDown(KeyCode.F10)) Command.Send(Command.Identity.Respawn, new object[] { 0 });
 		if (Input.anyKeyDown && !this.AnyGamepadAxis()) this.usingGamepad = false;
 		if (this.AnyGamepadAxis()) this.usingGamepad = true;
 		if (this.ControllerEnabled()) {
