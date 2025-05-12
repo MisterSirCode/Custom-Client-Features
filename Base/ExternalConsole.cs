@@ -15,6 +15,7 @@ public class ExternalConsole {
 		ExternalConsole.instance = this;
 		this.modules = new List<ExternalConsoleModule>();
         this.enabled = true;
+		this.invCatOverride = true;
 	}
 
 	public static ExternalConsole GetInstance() {
@@ -129,6 +130,7 @@ public class ExternalConsole {
 
 	public bool visible;
     public bool enabled;
+	public bool invCatOverride;
 	private static ExternalConsole instance;
 	public List<ExternalConsoleModule> modules;
 }
