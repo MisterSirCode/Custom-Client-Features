@@ -1,0 +1,1 @@
+public static readonly string Version = "3.13.2";

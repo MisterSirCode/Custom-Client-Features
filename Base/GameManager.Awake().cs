@@ -2,6 +2,10 @@ protected override void Awake() {
 	if (ExternalConsole.GetInstance() == null) {
 		new ExternalConsole().Initialize();
 	}
+	if (this.controllerToggler == null) {
+		this.controllerToggler = new GameObject();
+		this.controllerToggler.AddComponent<ControllerToggler>();
+	}
 	if (PlayerPrefs.HasKey("buildOverride")) BldoverConsoleCommand.buildOverride = PlayerPrefs.GetInt("buildOverride") == 1 ? true : false;
 	if (ExternalControllerManager.GetInstance() == null) {
 		GameObject gameObject = new GameObject();

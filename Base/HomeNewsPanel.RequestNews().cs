@@ -5,7 +5,7 @@ private void RequestNews() {
             if (req.response.GetDictionary("beta") != null) {
                 Dictionary<string, object> dict = req.response.GetDictionary("beta");
                 this.betaPanelBanner.GetComponent<Text>().text = (string)dict["title"];
-                this.betaPanelContent.GetComponent<Text>().text = (string)dict["title"];
+                this.betaPanelContent.GetComponent<Text>().text = (string)dict["content"];
                 if (dict["button"] != null) {
 					Dictionary<string, object> btn = dict["button"] as Dictionary<string, object>;
                     this.betaPanelButtonText.GetComponent<Text>().text = (string)btn["title"];

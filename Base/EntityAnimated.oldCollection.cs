@@ -1,0 +1,1 @@
+public tk2dSpriteCollectionData oldCollection;
