@@ -14,8 +14,8 @@ public class ExternalConsole {
 		}
 		ExternalConsole.instance = this;
 		this.modules = new List<ExternalConsoleModule>();
-        this.enabled = true;
-		this.invCatOverride = true;
+        this.enabled = false;
+		this.invCatOverride = false;
 	}
 
 	public static ExternalConsole GetInstance() {
