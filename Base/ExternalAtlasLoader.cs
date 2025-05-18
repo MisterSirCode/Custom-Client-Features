@@ -40,7 +40,7 @@ public class ExternalAtlasLoader : MonoBehaviour {
                 asset.loaded = true;
                 asset.SetData(new TextAsset(www.text));
                 this.atlasTexts.Add(asset);
-            } else {
+            } else if (asset.path.Contains(".png")) {
                 Texture2D texture = www.texture;
                 //ExternalConsole.Log("Texture Size (KB)", Mathf.Round((float)www.bytesDownloaded / 1000f).ToString());
                 asset.loaded = true;
