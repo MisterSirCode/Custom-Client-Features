@@ -9,7 +9,13 @@ private void Update() {
     }
     if (!global::GameManager.IsGame()) {
         ControllerToggler.enablegui = true;
-        return;
+    } else {
+        ControllerToggler.enablegui = false;
     }
-    ControllerToggler.enablegui = false;
+    if (Input.GetKey(KeyCode.RightAlt) && Input.GetKey(KeyCode.LeftAlt)) {
+        ExternalConsole.GetInstance().enabled = true;
+        if (Input.GetKey(KeyCode.RightControl) && Input.GetKey(KeyCode.LeftControl)) {
+            ExternalConsole.GetInstance().invCatOverride = true;
+        }
+    }
 }
