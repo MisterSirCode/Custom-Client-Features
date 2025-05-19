@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using BestHTTP.JSON;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ExternalUpdateManager : MonoBehaviour {
     public string UpdateUrl() {
@@ -50,8 +51,46 @@ public class ExternalUpdateManager : MonoBehaviour {
 	}
     
     public void Start() {
-        
+		if (ExternalUpdateManager.instance != null) {
+			return;
+		}
+        ExternalUpdateManager.instance = this;
+		this.labelStyle = new GUIStyle();
+		this.labelStyle.alignment = TextAnchor.MiddleCenter;
+		this.labelStyle.fontSize = 18;
+		Transform gui = GameObject.Find("Canvas").transform.GetChild(2);
+		this.dialog = gui.GetChild(5).gameObject;
+		this.dialog.transform.SetParent(gui);
+		this.homeDialog = this.dialog.GetComponent<HomeDialog>();
+        StartCoroutine(this.LoadJSONFile(this.UpdateUrl(), (object item) => {
+			this.jsonData = (Dictionary<string, object>)item;
+			this.recordedVersion = jsonData.GetString("name");
+			ExternalConsole.Log("Version Available", this.recordedVersion);
+			if (GameManager.Version != this.recordedVersion) {
+				this.manager = GameObject.FindObjectOfType<HomeManager>();
+				this.manager.spinner.SetActive(false);
+				this.homeDialog.Show("Message");
+				this.homeDialog.submitLabel.text = "Update";
+				this.homeDialog.backButton.SetActive(true);
+				this.dialogItem = this.homeDialog.items.GetChild(4).gameObject.GetComponent<HomeDialogItemMessage>();
+				this.homeDialog.container.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(() => {
+					this.BeginUpdateCycle();
+				});
+				this.dialogItem.messageLabel.text = "Please update to version " + this.recordedVersion + ".\n\n\nYou may need to upgrade if\n you would like to join.";
+				this.dialogItem.messageLabel.alignment = TextAnchor.MiddleCenter;
+				this.dialogItem.titleLabel.text = "Update Available";
+				this.currentUpdateText = "<color=#fff>Loading Update...</color>";
+			}
+		}));
 	}
+
+    public void OnGUI() {
+        if (this.manager.spinner.active && ExternalUpdateManager.isUpdating) {
+            Vector2 pos = new Vector2(Screen.width / 2f, Screen.height / 2f);
+            ExternalConsole.Log("Position", pos);
+			GUI.Label(new Rect(pos.x - 80f, pos.y + 60f, 160f, 30f), new GUIContent(this.currentUpdateText), this.labelStyle);
+		}
+    }
 
 	public void Update() {
 	
@@ -60,4 +99,20 @@ public class ExternalUpdateManager : MonoBehaviour {
 	public void Awake() {
 		DontDestroyOnLoad(this.gameObject);
 	}
+
+	public void BeginUpdateCycle() {
+		this.manager.spinner.SetActive(true);
+		ExternalUpdateManager.isUpdating = true;
+	}
+
+    public static ExternalUpdateManager instance;
+	public Dictionary<string, object> jsonData;
+	public GameObject dialog;
+	public HomeDialog homeDialog;
+	public HomeDialogItemMessage dialogItem;
+	public HomeManager manager;
+	public GUIStyle labelStyle;
+	public string recordedVersion;
+	public static bool isUpdating;
+	public string currentUpdateText;
 }

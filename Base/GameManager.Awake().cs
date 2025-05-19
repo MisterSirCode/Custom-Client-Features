@@ -7,6 +7,11 @@ protected override void Awake() {
 		this.controllerToggler.AddComponent<ControllerToggler>();
 	}
 	if (PlayerPrefs.HasKey("buildOverride")) BldoverConsoleCommand.buildOverride = PlayerPrefs.GetInt("buildOverride") == 1 ? true : false;
+	if (ExternalUpdateManager.instance == null) {
+		GameObject gameObject = new GameObject();
+		gameObject.AddComponent<ExternalUpdateManager>();
+		global::UnityEngine.Object.Instantiate<GameObject>(gameObject);
+	}
 	if (ExternalControllerManager.GetInstance() == null) {
 		GameObject gameObject = new GameObject();
 		gameObject.AddComponent<ExternalControllerManager>();
