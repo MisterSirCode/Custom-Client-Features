@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
+using System.Text.RegularExpressions;
 using BestHTTP.JSON;
 using UnityEngine;
 using UnityEngine.UI;
@@ -103,6 +105,19 @@ public class ExternalUpdateManager : MonoBehaviour {
 	public void BeginUpdateCycle() {
 		this.manager.spinner.SetActive(true);
 		ExternalUpdateManager.isUpdating = true;
+		List<IEnumerator> list = new List<IEnumerator>();
+		List<object> assets = this.jsonData.GetList("assets");
+		foreach (object item in assets) {
+			Dictionary<string, object> dict = (Dictionary<string, object>)item;
+			string name = dict.GetString("name");
+			string adder = "";
+			if (name == "Assembly-CSharp.dll") adder = "Managed/";
+			else if (name.StartsWith("External.")) name = Regex.Replace(name, "/External.(\\w+)./g", "External/$1/");
+			ExternalConsole.Log("Loading " + adder + name, dict.GetString("name"));
+			list.Add(LoadMiscFile(Application.dataPath + "/" + adder + name, (string name, byte[] data) => {
+				ExternalConsole.Log("Loaded File " + name, data.Length);
+			}));
+		}
 	}
 
     public static ExternalUpdateManager instance;
