@@ -69,14 +69,23 @@ public class ExternalUpdateManager : MonoBehaviour {
 			this.recordedVersion = jsonData.GetString("name");
 			ExternalConsole.Log("Version Available", this.recordedVersion);
 			if (GameManager.Version != this.recordedVersion) {
+				ExternalUpdateManager.shouldShowPanel = true;
 				this.manager = GameObject.FindObjectOfType<HomeManager>();
 				this.manager.spinner.SetActive(false);
 				this.homeDialog.Show("Message");
 				this.homeDialog.submitLabel.text = "Update";
 				this.homeDialog.backButton.SetActive(true);
 				this.dialogItem = this.homeDialog.items.GetChild(4).gameObject.GetComponent<HomeDialogItemMessage>();
+				this.homeDialog.backButton.GetComponent<Button>().onClick.AddListener(() => {
+					if (ExternalUpdateManager.shouldShowPanel) {
+						ExternalUpdateManager.shouldShowPanel = false;
+					}
+				});
 				this.homeDialog.container.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(() => {
-					this.BeginUpdateCycle();
+					if (ExternalUpdateManager.shouldShowPanel) {
+						this.BeginUpdateCycle();
+						ExternalUpdateManager.shouldShowPanel = false;
+					}
 				});
 				this.dialogItem.messageLabel.text = "Please update to version " + this.recordedVersion + ".\n\n\nYou may need to upgrade if\n you would like to join.";
 				this.dialogItem.messageLabel.alignment = TextAnchor.MiddleCenter;
@@ -129,5 +138,6 @@ public class ExternalUpdateManager : MonoBehaviour {
 	public GUIStyle labelStyle;
 	public string recordedVersion;
 	public static bool isUpdating;
+	public static bool shouldShowPanel;
 	public string currentUpdateText;
 }
