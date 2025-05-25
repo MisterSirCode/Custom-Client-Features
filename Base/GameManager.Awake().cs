@@ -1,4 +1,5 @@
 protected override void Awake() {
+	this.debug = false;
 	if (ExternalConsole.GetInstance() == null) {
 		new ExternalConsole().Initialize();
 	}

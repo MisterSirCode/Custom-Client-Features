@@ -82,6 +82,22 @@ public class ExternalAtlasLoader : MonoBehaviour {
 		base.StartCoroutine(this.GenerateAtlases(list.ToArray()));
     }
 
+    public static bool HasAtlas(string name) {
+		if (ExternalAtlasLoader.instance == null) return false;
+		foreach (ExternalAtlas atlas in ExternalAtlasLoader.instance.atlases) {
+			if (atlas.name == name) return true;
+		}
+		return false;
+    }
+
+    public static ExternalAtlas GetAtlas(string name) {
+		if (ExternalAtlasLoader.instance == null) return null;
+		foreach (ExternalAtlas atlas in ExternalAtlasLoader.instance.atlases) {
+			if (atlas.name == name) return atlas;
+		}
+		return null;
+    }
+
 	public static ExternalAtlasLoader instance;
     public List<ExternalAsset> assets;
     public List<ExternalAsset> atlasImages;
