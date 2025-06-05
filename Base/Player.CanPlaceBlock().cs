@@ -22,7 +22,7 @@ public bool CanPlaceBlock(Vector2 blockPosition, out string failureReason) {
                 }
             }
             if (this.primaryItem.mounted && (zoneBlock.baseItem == null || zoneBlock.baseItem.code < 2) && (zoneBlock.backItem == null || zoneBlock.backItem.code == 0)) {
-                return false;
+                return true;
             }
         }
     } else {
