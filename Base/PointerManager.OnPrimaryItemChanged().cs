@@ -5,8 +5,7 @@ private void OnPrimaryItemChanged(Item item)  {
             tk2dSpriteCollectionData tk2dSpriteCollectionData = Singleton<AtlasManager>.main.Collection("inventory");
             if (tk2dSpriteCollectionData.GetSpriteDefinition(item.inventorySpriteName) != null) {
                 this.placeSprite.SetSprite(tk2dSpriteCollectionData, item.inventorySpriteName);
-            }
-            else {
+            } else {
                 this.placeSprite.SetSprite(tk2dSpriteCollectionData, "inventory/ground/onyx");
             }
             float num = Singleton<AtlasManager>.main.BaseBlockScale() / Mathf.Max(this.placeSprite.GetCurrentSpriteDef().rect.width, this.placeSprite.GetCurrentSpriteDef().rect.height);
@@ -14,8 +13,7 @@ private void OnPrimaryItemChanged(Item item)  {
             FixedSize fixedSize;
             fixedSize.width = 1;
             fixedSize.height = 1;
-        }
-        else {
+        } else {
             tk2dSpriteDefinition tk2dSpriteDefinition = item.guiSprite;
             if (tk2dSpriteDefinition == null) {
                 Item.SpriteLayer spriteLayer = item.spriteLayers[0];
@@ -28,8 +26,7 @@ private void OnPrimaryItemChanged(Item item)  {
                 FixedSize fixedSize = SpriteHelper.BlockSize(tk2dSpriteDefinition);
             }
         }
-    }
-    else {
+    } else {
         this.primaryItemPlaceable = false;
     }
 }

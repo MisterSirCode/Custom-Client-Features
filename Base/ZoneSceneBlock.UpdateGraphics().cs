@@ -43,8 +43,7 @@ private void UpdateGraphics() {
     }
     if (liquidItem != null && liquidItem.light > 0f && this.blockLight == null) {
         this.UpdateLighting(liquidItem);
-    }
-    else {
+    } else {
         this.UpdateLighting(item);
     }
     this.UpdateSignage(item);

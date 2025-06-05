@@ -20,8 +20,7 @@ public void Configure(Dictionary<string, object> _config)  {
 	if (this.config.GetString("gen_date") != null) {
 		DateTime dateTime = DateTime.Parse(this.config.GetString("gen_date"));
 		this.dateLabel.text = dateTime.ToString("MMM").ToUpper() + "\n" + dateTime.ToString("yy");
-	}
-	else {
+	} else {
 		this.dateLabel.text = "?";
 	}
 	this.lockedIcon.enabled = this.config.GetBool("protected", false);
@@ -29,8 +28,7 @@ public void Configure(Dictionary<string, object> _config)  {
 	if (this.config.GetString("name") != ReplaceableSingleton<Zone>.main.name) {
 		int @int = this.config.GetInt("players", 0);
 		this.secondaryLabel.text = ((@int <= 0) ? "No occupants" : (@int + " occupant" + ((@int <= 1) ? string.Empty : "s")));
-	}
-	else {
+	} else {
 		this.secondaryLabel.text = "You are here.";
 	}
 	this.chartOne.fillAmount = this.config.GetFloat("explored", 0f);

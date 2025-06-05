@@ -9,8 +9,7 @@ public void CheckAccessibility(Vector2 block) {
         }
         else if (ReplaceableSingleton<Player>.main.primaryItem != null && ReplaceableSingleton<Player>.main.primaryItem.IsGun()) {
             this.pointerAccessibility = PointerManager.Accessibility.Affectable;
-        }
-        else {
+        } else {
             this.pointerAccessibility = PointerManager.Accessibility.None;
         }
     } catch (Exception) { }

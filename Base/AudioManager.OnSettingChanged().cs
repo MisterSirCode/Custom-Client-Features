@@ -5,8 +5,7 @@
 					this.SetVolume("musicVolume", val);
 					ExternalMusicLoader.instance.controller.volume = val;
 				}
-			}
-			else {
+			} else {
 				this.SetVolume("sfxVolume", val);
 				this.SetVolume("guiVolume", val);
 			}

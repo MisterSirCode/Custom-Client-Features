@@ -24,8 +24,7 @@
 			if (num > 1.5f && text != null) {
 				Notification.Create(text, 1);
 			}
-		}
-		else {
+		} else {
 			this.avatar.interactionItem = null;
 		}
 		return false;

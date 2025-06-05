@@ -23,8 +23,7 @@ private void LoadInventory(List<object> cfg) {
 					list.Remove(item);
 				}
 				item.inventoryCategory = text;
-			}
-			else {
+			} else {
 				global::UnityEngine.Debug.Log("Can't find item " + ((obj2 != null) ? obj2.ToString() : null));
 			}
 		}
