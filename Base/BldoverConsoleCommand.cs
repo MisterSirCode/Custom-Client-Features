@@ -8,7 +8,6 @@ public class BldoverConsoleCommand : ConsoleCommand {
 		PlayerPrefs.Save();
 	}
 
-	// Token: 0x06004A37 RID: 18999
 	public override bool RequiresAdmin() {
 		return false;
 	}
