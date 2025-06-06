@@ -41,7 +41,6 @@ public class ExternalAsset {
 		return null;
 	}
 
-	// Token: 0x06004964 RID: 18788 RVA: 0x0003C295 File Offset: 0x0003A495
 	public bool HasMeta() {
 		return this.meta != null;
 	}

@@ -46,7 +46,6 @@ public class ExternalAssetManager {
 		return results;
 	}
 
-		// Token: 0x06004A74 RID: 19060
 	public IEnumerator LoadAssetMetadata(ExternalAsset asset) {
 		string metaPath = asset.path + ".meta";
 		if (!File.Exists(metaPath))
