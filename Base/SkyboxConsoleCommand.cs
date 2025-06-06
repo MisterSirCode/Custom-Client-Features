@@ -9,7 +9,7 @@ public class SkyboxConsoleCommand : ConsoleCommand {
 			SkyboxConsoleCommand.activeWithColor = true;
 		} else {
 			bool toggle = base.OnOffArgument();
-			if (toggle == false) SkyboxConsoleCommand.activeWithColor = false;
+			SkyboxConsoleCommand.activeWithColor = false;
 			foreach (object obj in GameObject.Find("/Sky Camera").transform) {
 				Transform child = (Transform)obj;
 				string name = child.gameObject.name;
