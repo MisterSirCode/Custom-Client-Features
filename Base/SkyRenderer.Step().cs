@@ -1,9 +1,9 @@
 	private void Step() {		
-        if (ReplaceableSingleton<ZoneRenderer>.main.IsCavernVisible()) {			
-            float num = ReplaceableSingleton<Player>.main.Depth();
-			this.horizonColor = Color.Lerp(this.cavernShallowColors[0], this.cavernShallowColors[1], num);
-			this.zenithColor = Color.Lerp(this.cavernDeepColors[0], this.cavernDeepColors[1], num);
-		} else {			
+        if (ReplaceableSingleton<ZoneRenderer>.main.IsCavernVisible()) {
+            float t = ReplaceableSingleton<Player>.main.Depth();
+            this.zenithColor = Color.Lerp(this.cavernShallowColors[0], this.cavernShallowColors[1], t);
+            this.horizonColor = Color.Lerp(this.cavernDeepColors[0], this.cavernDeepColors[1], t);
+        } else {			
             List<List<Color>> list = this.SkyGradients(null);
 			List<List<Color>> list2 = this.SkyGradients("acidic");
 			Color[] array = this.ColorForTimeOfDay(list);
