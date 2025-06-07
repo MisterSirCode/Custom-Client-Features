@@ -29,7 +29,7 @@ public class ExternalSpriteLoader : MonoBehaviour {
 			asset.loaded = true;
 			float top = 0.0f, bottom = 0.0f, left = 0.0f, right = 0.0f, pixelsPerUnit = 1.0f;
 			if (asset.HasMeta()) {
-			Dictionary<string, object> meta = asset.GetMeta();
+				Dictionary<string, object> meta = asset.GetMeta();
 				top = float.Parse(meta.GetString("top", "0").Trim());
 				bottom = float.Parse(meta.GetString("bottom", "0").Trim());
 				left = float.Parse(meta.GetString("left", "0").Trim());
