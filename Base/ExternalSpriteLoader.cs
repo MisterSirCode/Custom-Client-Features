@@ -82,6 +82,15 @@ public class ExternalSpriteLoader : MonoBehaviour {
         }
     }
 
+	public static bool HasSprite(string name) {
+        foreach (ExternalAsset asset in ExternalSpriteLoader.instance.assets) {
+            if (asset.name == name) {
+                return true;
+            }
+        }
+        return false;
+	}
+
     public static Sprite GetSprite(string name) {
         foreach (ExternalAsset asset in ExternalSpriteLoader.instance.assets) {
             if (asset.name == name) {

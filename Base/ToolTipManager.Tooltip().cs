@@ -1,8 +1,5 @@
-// Token: 0x06003E82 RID: 16002 RVA: 0x0015E930 File Offset: 0x0015CB30
 private ToolTip ToolTip(string type) {
-    if (this.toolTips.ContainsKey(type)) {
-        return this.toolTips[type];
-    }
+    if (this.toolTips.ContainsKey(type)) return this.toolTips[type];
     GameObject gameObject = (GameObject)Resources.Load("Prefabs/Tooltips/" + type);
     if (gameObject != null) {
         GameObject gameObject2 = global::UnityEngine.Object.Instantiate<GameObject>(gameObject);
