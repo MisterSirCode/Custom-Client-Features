@@ -2,11 +2,11 @@ public void Configure(Dictionary<string, object> _config)  {
 	this.config = _config;
 	string @string = this.config.GetString("activity", (!this.config.GetBool("pvp", false)) ? null : "PvP");
 	this.biomeIcon.sprite = GameGui.GetSprite("biome-" + this.config.GetString("biome"));		
-	if (this.config.GetString("biome") == "ocean") {
+	if (this.config.GetString("biome") == "ocean" && ExternalSpriteLoader.HasSprite("biome-ocean")) {
 		Sprite sprite = ExternalSpriteLoader.GetSprite("biome-ocean");
 		this.biomeIcon.sprite = sprite;
 	}
-	if (this.config.GetString("activity") == "market") {
+	if (this.config.GetString("activity") == "market" && ExternalSpriteLoader.HasSprite("market-world")) {
 		Sprite sprite2 = ExternalSpriteLoader.GetSprite("market-world");
 		this.biomeIcon.sprite = sprite2;
 	}
