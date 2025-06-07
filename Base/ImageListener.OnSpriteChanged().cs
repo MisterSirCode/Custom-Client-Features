@@ -1,7 +1,7 @@
 private void OnSpriteChanged(object spriteObj) {
     string text = (string)spriteObj;
     if (text != null && text.Length > 0) {
-        if (text.Contains("crow-5")) {
+        if (text.Contains("crow-5") && ExternalSpriteLoader.HasSprite("crow-5")) {
             this.image.sprite = ExternalSpriteLoader.GetSprite("crow-5");
             base.gameObject.SetActive(true);
             return;
