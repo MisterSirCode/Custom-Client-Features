@@ -20,14 +20,30 @@ public class ExternalSpriteLoader : MonoBehaviour {
 	}
 
 	public IEnumerator LoadSpriteFile(ExternalAsset asset) {
+		yield return base.StartCoroutine(ExternalAssetManager.GetInstance().LoadAssetMetadata(asset));
 		WWW www = new WWW(asset.path);
 		yield return www;
 		try {
             Texture2D texture = www.texture;
 			//ExternalConsole.Log("Texture Size (KB)", Mathf.Round((float)www.bytesDownloaded / 1000f).ToString());
-            asset.loaded = true;
-			asset.SetData(Sprite.Create(texture, new Rect(0f, 0f, (float)texture.width, (float)texture.height), new Vector2(0f, 0f)));
-            this.sprites.Add(asset);
+			asset.loaded = true;
+			float top = 0.0f, bottom = 0.0f, left = 0.0f, right = 0.0f, pixelsPerUnit = 1.0f;
+			if (asset.HasMeta()) {
+			Dictionary<string, object> meta = asset.GetMeta();
+				top = float.Parse(meta.GetString("top", "0").Trim());
+				bottom = float.Parse(meta.GetString("bottom", "0").Trim());
+				left = float.Parse(meta.GetString("left", "0").Trim());
+				right = float.Parse(meta.GetString("right", "0").Trim());
+                pixelsPerUnit = float.Parse(meta.GetString("pixelsPerUnit", "1").Trim());
+			}
+			Sprite sprite;
+			if (top != 0f || bottom != 0f || left != 0f || right != 0f) {
+				sprite = Sprite.Create(texture, new Rect(0f, 0f, (float)texture.width, (float)texture.height), new Vector2(0f, 0f), pixelsPerUnit, 0U, SpriteMeshType.FullRect, new Vector4(left, bottom, right, top));
+			} else {
+				sprite = Sprite.Create(texture, new Rect(0f, 0f, (float)texture.width, (float)texture.height), new Vector2(0f, 0f));
+			}
+			asset.SetData(sprite);
+			this.sprites.Add(asset);
 			www.Dispose();
 			yield break;
 		} catch(Exception e) {

@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class ExternalAsset {
 	public ExternalAsset(string name, string path, string fileID, string type) {
@@ -32,10 +33,27 @@ public class ExternalAsset {
 		this.data = data;
 	}
 
+	public Dictionary<String, object> GetMeta() {
+		if (this.loaded)
+		{
+			return this.meta;
+		}
+		return null;
+	}
+
+	public bool HasMeta() {
+		return this.meta != null;
+	}
+
+	public void SetMeta(Dictionary<String, object> meta) {
+	    this.meta = meta;
+	}
+
 	public string name;
 	public string path;
 	public string type;
 	private string fileID;
 	public bool loaded;
 	public UnityEngine.Object data;
+	public Dictionary<String, object> meta;
 }
