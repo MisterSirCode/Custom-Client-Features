@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using BestHTTP.JSON;
@@ -67,30 +68,54 @@ public class ExternalUpdateManager : MonoBehaviour {
         StartCoroutine(this.LoadJSONFile(this.UpdateUrl(), (object item) => {
 			this.jsonData = (Dictionary<string, object>)item;
 			this.recordedVersion = jsonData.GetString("name");
+			List<object> assets = this.jsonData.GetList("assets");
+			bool isLargeUpdate = assets.Count == 0;
+			string largeUpdateURL = this.jsonData.GetString("body");
 			ExternalConsole.Log("Version Available", this.recordedVersion);
 			if (GameManager.Version != this.recordedVersion) {
 				ExternalUpdateManager.shouldShowPanel = true;
 				this.manager = GameObject.FindObjectOfType<HomeManager>();
 				this.manager.spinner.SetActive(false);
 				this.homeDialog.Show("Message");
-				this.homeDialog.submitLabel.text = "Update";
 				this.homeDialog.backButton.SetActive(true);
 				this.dialogItem = this.homeDialog.items.GetChild(4).gameObject.GetComponent<HomeDialogItemMessage>();
-				this.homeDialog.backButton.GetComponent<Button>().onClick.AddListener(() => {
-					if (ExternalUpdateManager.shouldShowPanel) {
-						ExternalUpdateManager.shouldShowPanel = false;
-					}
-				});
-				this.homeDialog.container.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(() => {
-					if (ExternalUpdateManager.shouldShowPanel) {
-						this.BeginUpdateCycle();
-						ExternalUpdateManager.shouldShowPanel = false;
-					}
-				});
-				this.dialogItem.messageLabel.text = "Please update to version " + this.recordedVersion + ".\n\n\nYou may need to upgrade if\n you would like to join.";
-				this.dialogItem.messageLabel.alignment = TextAnchor.MiddleCenter;
-				this.dialogItem.titleLabel.text = "Update Available";
-				this.currentUpdateText = "<color=#fff>Loading Update...</color>";
+				if (isLargeUpdate) {
+					this.homeDialog.submitLabel.text = "Download";
+					this.homeDialog.backButton.GetComponent<Button>().onClick.AddListener(() => {
+						if (ExternalUpdateManager.shouldShowPanel) {
+							ExternalUpdateManager.shouldShowPanel = false;
+						}
+					});
+					this.homeDialog.container.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(() => {
+						if (ExternalUpdateManager.shouldShowPanel) {
+							System.Diagnostics.Process.Start(new ProcessStartInfo {
+								FileName = largeUpdateURL,
+								UseShellExecute = true
+							});
+							ExternalUpdateManager.shouldShowPanel = false;
+						}
+					});
+					this.dialogItem.messageLabel.text = "Please update to version " + this.recordedVersion + ".\n\n\nThis is a LARGE update. You must redownload the game.";
+					this.dialogItem.messageLabel.alignment = TextAnchor.MiddleCenter;
+					this.dialogItem.titleLabel.text = "Large Update Available";
+				} else {
+					this.homeDialog.submitLabel.text = "Update";
+					this.homeDialog.backButton.GetComponent<Button>().onClick.AddListener(() => {
+						if (ExternalUpdateManager.shouldShowPanel) {
+							ExternalUpdateManager.shouldShowPanel = false;
+						}
+					});
+					this.homeDialog.container.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(() => {
+						if (ExternalUpdateManager.shouldShowPanel) {
+							this.BeginUpdateCycle();
+							ExternalUpdateManager.shouldShowPanel = false;
+						}
+					});
+					this.dialogItem.messageLabel.text = "Please update to version " + this.recordedVersion + ".\n\n\nYou may need to upgrade if\n you would like to join.";
+					this.dialogItem.messageLabel.alignment = TextAnchor.MiddleCenter;
+					this.dialogItem.titleLabel.text = "Update Available";
+					this.currentUpdateText = "<color=#fff>Loading Update...</color>";
+				}
 			}
 		}));
 	}
