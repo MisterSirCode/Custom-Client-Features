@@ -29,15 +29,16 @@ public class ExternalAsset {
 		else return null;
 	}
 
+	public bool HasData() {
+		return this.data != null;
+	}
+
 	public void SetData(UnityEngine.Object data) {
 		this.data = data;
 	}
 
 	public Dictionary<String, object> GetMeta() {
-		if (this.loaded)
-		{
-			return this.meta;
-		}
+		if (this.loaded) return this.meta;
 		return null;
 	}
 
