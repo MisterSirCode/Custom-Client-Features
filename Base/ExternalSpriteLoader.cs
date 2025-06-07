@@ -19,8 +19,32 @@ public class ExternalSpriteLoader : MonoBehaviour {
 		DontDestroyOnLoad(this.gameObject);
 	}
 
+	public IEnumerator LoadAssetMetadata(ExternalAsset asset) {
+		string metaPath = asset.path + ".meta";
+		if (!File.Exists(metaPath)) yield break;
+		WWW www = new WWW(metaPath);
+		yield return www;
+		try {
+			Dictionary<string, object> result = new Dictionary<string, object>();
+			using (StringReader reader = new StringReader(www.text)) {
+				string line;
+				while ((line = reader.ReadLine()) != null) {
+					int sep = line.IndexOf("=");
+					if (sep != -1) result.Add(line.Substring(0, sep), line.Substring(sep + 1));
+				}
+			}
+			asset.SetMeta(result);
+			www.Dispose();
+			yield break;
+		} catch (Exception ex) {
+			ExternalConsole.HandleException(asset.name + " Metadata Loader", ex);
+			yield break;
+		}
+		yield break;
+	}
+
 	public IEnumerator LoadSpriteFile(ExternalAsset asset) {
-		yield return base.StartCoroutine(ExternalAssetManager.GetInstance().LoadAssetMetadata(asset));
+		yield return base.StartCoroutine(ExternalSpriteLoader.instance.LoadAssetMetadata(asset));
 		WWW www = new WWW(asset.path);
 		yield return www;
 		try {
