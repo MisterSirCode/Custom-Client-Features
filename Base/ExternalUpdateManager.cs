@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using BestHTTP.JSON;
@@ -40,12 +41,13 @@ public class ExternalUpdateManager : MonoBehaviour {
 		}
 	}
 
-	public IEnumerator LoadMiscFile(string url, Action<string, byte[]> callback) {
+	public IEnumerator LoadMiscFile(string url, string path, string name, Action<string, byte[]> callback) {
 		WWW www = new WWW(url);
+		this.currentUpdateText = "<color=#fff>Downloading File: " + Regex.Replace(name, "\\w+/\\w+/", "") + "...</color>";
 		yield return www;
-		string name = this.GetFileNameFromUrl(url);
 		try {
-			callback(name, www.bytes);
+			//yield return File.WriteAllBytes(path, www.bytes);
+			callback(path, www.bytes);
 			www.Dispose();
 			yield break;
 		} catch(Exception e) {
@@ -107,7 +109,7 @@ public class ExternalUpdateManager : MonoBehaviour {
 					});
 					this.homeDialog.container.GetChild(3).gameObject.GetComponent<Button>().onClick.AddListener(() => {
 						if (ExternalUpdateManager.shouldShowPanel) {
-							this.BeginUpdateCycle();
+							base.StartCoroutine(this.BeginUpdateCycle());
 							ExternalUpdateManager.shouldShowPanel = false;
 						}
 					});
@@ -136,7 +138,7 @@ public class ExternalUpdateManager : MonoBehaviour {
 		DontDestroyOnLoad(this.gameObject);
 	}
 
-	public void BeginUpdateCycle() {
+	public IEnumerator BeginUpdateCycle() {
 		this.manager.spinner.SetActive(true);
 		ExternalUpdateManager.isUpdating = true;
 		List<IEnumerator> list = new List<IEnumerator>();
@@ -146,12 +148,16 @@ public class ExternalUpdateManager : MonoBehaviour {
 			string name = dict.GetString("name");
 			string adder = "";
 			if (name == "Assembly-CSharp.dll") adder = "Managed/";
-			else if (name.StartsWith("External.")) name = Regex.Replace(name, "/External.(\\w+)./g", "External/$1/");
-			ExternalConsole.Log("Loading " + adder + name, dict.GetString("name"));
-			list.Add(LoadMiscFile(Application.dataPath + "/" + adder + name, (string name, byte[] data) => {
+			else if (name.StartsWith("External.")) name = Regex.Replace(name, "External.(\\w+).", "External/$1/");
+			list.Add(LoadMiscFile(dict.GetString("browser_download_url"), Application.dataPath + "/" + adder + name, name, (string name, byte[] data) => {
 				ExternalConsole.Log("Loaded File " + name, data.Length);
 			}));
 		}
+		yield return base.StartCoroutine(this.WaitForSomeCoroutines(list.ToArray()));
+		this.currentUpdateText = "<color=#1f1>Restart your game to finalize changes!</color>";
+		yield return new WaitForSeconds(5f);
+		ExternalUpdateManager.isUpdating = false;
+		this.manager.spinner.SetActive(false);
 	}
 
     public static ExternalUpdateManager instance;
