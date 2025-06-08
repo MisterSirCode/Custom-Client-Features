@@ -12,6 +12,15 @@ public class IdentifyConsoleCommand : ConsoleCommand {
 		IdentifyConsoleCommand.isRunning = flag;
 	}
 
+	public static Entity NearbyEntity(Vector2 position, float radius = 0.25f) {
+		Collider2D[] array = Physics2D.OverlapCircleAll(position, radius, 1 << Ecosystem.entityLayer);
+		foreach (Collider2D collider2D in array) {
+			Entity component = collider2D.GetComponent<Entity>();
+			return component;
+		}
+		return null;
+	}
+
 	public override bool RequiresAdmin() {
 		return false;
 	}
