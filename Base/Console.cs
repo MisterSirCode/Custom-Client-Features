@@ -41,8 +41,7 @@ namespace Bytebin {
 			string[] array;
 			if (text.IndexOf(" ") >= 0) {
 				array = text.Split(new char[] { ' ' });
-			}
-			else {
+			} else {
 				(array = new string[1])[0] = text;
 			}
 			string[] array2 = array;
@@ -62,24 +61,20 @@ namespace Bytebin {
 					consoleCommand.arguments = array2.Subarray(1);
 					if (!consoleCommand.RequiresAdmin() || ReplaceableSingleton<Player>.main.admin || Application.isEditor) {
 						consoleCommand.Run();
-					}
-					else {
+					} else {
 						Notification.Create("Invalid command /" + text2, 1);
 					}
-				}
-				else if (((Dictionary<string, object>)Config.main.data["commands"]).ContainsKey(text2)) {
+				} else if (((Dictionary<string, object>)Config.main.data["commands"]).ContainsKey(text2)) {
 					Command.Send(Command.Identity.Console, new object[] {
 						text2,
 						array2.Subarray(1)
 					});
-				}
-				else if (ReplaceableSingleton<Player>.main.admin && text2 == "sale") {
+				} else if (ReplaceableSingleton<Player>.main.admin && text2 == "sale") {
 					Command.Send(Command.Identity.Admin, new object[] {
 						text2,
 						array2.Subarray(1)
 					});
-				}
-				else {
+				} else {
 					Notification.Create("Invalid command /" + text2, 1);
 				}
 			}
@@ -102,8 +97,7 @@ namespace Bytebin {
 					this.input.text = string.Empty;
 					this.historyIndex = this.history.Count;
 					base.StartCoroutine(this.Append(value));
-				}
-				else {
+				} else {
 					this.input.enabled = false;
 					Console.deactivatedAt = Time.time;
 				}
@@ -125,6 +119,27 @@ namespace Bytebin {
 			return this.input.enabled;
 		}
 
+		public Vector3 VecAbs(Vector3 val) {
+			return new Vector3(Mathf.Abs(val.x), Mathf.Abs(val.y), Mathf.Abs(val.z));
+		}
+
+		public Vector3 VecFloor(Vector3 val) {
+			return new Vector3(Mathf.Floor(val.x), Mathf.Floor(val.y), Mathf.Floor(val.z));
+		}
+
+		public Vector3 VecClamp(Vector3 val, float min, float max) {
+			return new Vector3(Mathf.Clamp(val.x, min, max), Mathf.Clamp(val.y, min, max), Mathf.Clamp(val.z, min, max));
+		}
+
+		public Vector3 FromF(float f) {
+			return new Vector3(f, f, f);
+		}
+
+		public Vector3 HueToRGB(float hue) {
+			Vector3 vector = new Vector3(hue, hue + 0.33333334f, hue + 0.6666667f);
+			return 0.5f * this.VecClamp(6f * this.VecAbs(vector - this.VecFloor(vector) - this.FromF(0.5f)) - this.FromF(1f), 0f, 1f) + this.FromF(0.5f);
+		}
+
 		public void OnSubmit(string val) {
 			if (!Input.GetKey(KeyCode.Return) && !GameManager.IsMobile()) {
 				return;
@@ -137,11 +152,20 @@ namespace Bytebin {
 				}
 				if (val[0] == '/') {
 					this.ProcessCommand(val);
-				}
-				else {
+				} else if (SupergayConsoleCommand.active) {
+					int length = val.Length;
+					string text = "";
+					for (int i = 0; i < length; i++) {
+						Vector3 vector = this.HueToRGB((float)(i + 1) / (float)(length - 1));
+						char c = val[i];
+						string text2 = string.Format("{0:X2}{1:X2}{2:X2}", (byte)(vector.x * 255f), (byte)(vector.y * 255f), (byte)(vector.z * 255f));
+						text = text + "<color=#" + text2 + ">" + c.ToString() + "</color>";
+					}
+					Command.Send(Command.Identity.Chat, new object[] { null, text });
+				} else {
 					Command.Send(Command.Identity.Chat, new object[] { null, val });
 				}
-			}
+            }
 			this.Activate(false);
 		}
 
