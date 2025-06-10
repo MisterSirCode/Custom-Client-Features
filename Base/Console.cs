@@ -162,7 +162,18 @@ namespace Bytebin {
 						text = text + "<color=#" + text2 + ">" + c.ToString() + "</color>";
 					}
 					Command.Send(Command.Identity.Chat, new object[] { null, text });
-				} else {
+                    /// CODE FOR TESTING. DO NOT INCLUDE INGAME
+				} else if (GameManager.order != null) {
+                    string color = "";
+                    if (GameManager.order == "crow-1") color = "fff";
+                    if (GameManager.order == "crow-2") color = "FFE791";
+                    if (GameManager.order == "crow-3") color = "A5C4FF";
+                    if (GameManager.order == "crow-4") color = "FFAFAF";
+                    if (GameManager.order == "crow-5") color = "D4C1FF";
+                    string text = "<color=#" + color + ">" + val + "</color>";
+					Command.Send(Command.Identity.Chat, new object[] { null, text });
+                    /// CODE END
+                } else {
 					Command.Send(Command.Identity.Chat, new object[] { null, val });
 				}
             }

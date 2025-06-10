@@ -123,10 +123,12 @@ public class ExternalUpdateManager : MonoBehaviour {
 	}
 
     public void OnGUI() {
-        if (this.manager.spinner.active && ExternalUpdateManager.isUpdating) {
-            Vector2 pos = new Vector2(Screen.width / 2f, Screen.height / 2f);
-            ExternalConsole.Log("Position", pos);
-			GUI.Label(new Rect(pos.x - 80f, pos.y + 60f, 160f, 30f), new GUIContent(this.currentUpdateText), this.labelStyle);
+		if (!GameManager.IsGame()) {
+			if (this.manager.spinner.active && ExternalUpdateManager.isUpdating) {
+				Vector2 vector = new Vector2((float)Screen.width / 2f, (float)Screen.height / 2f);
+				ExternalConsole.Log("Position", vector);
+				GUI.Label(new Rect(vector.x - 80f, vector.y + 60f, 160f, 30f), new GUIContent(this.currentUpdateText), this.labelStyle);
+			}
 		}
     }
 
