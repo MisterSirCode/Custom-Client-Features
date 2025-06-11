@@ -23,6 +23,15 @@ public static ConfigurableDialog Create(Dictionary<string, object> config, Confi
     IL_008E:
     GameObject dialog = (GameObject)global::UnityEngine.Object.Instantiate(Resources.Load(text));
 
+    if(@string == "android") {
+        Transform bubble = dialog.transform.Find("Speech Bubble");
+        if(bubble != null) {
+            if (ExternalSpriteLoader.HasSprite("bubble-speech")) {
+                bubble.GetComponent<Image>().sprite = ExternalSpriteLoader.GetSprite("bubble-speech");
+            }
+        }
+    }
+
     // For some types of dialog try to resize according to preference
     string dialogSizeId =@string ?? "standard";
     GuiWindow guiWindow = dialog.GetComponent<GuiWindow>();
@@ -31,7 +40,7 @@ public static ConfigurableDialog Create(Dictionary<string, object> config, Confi
         guiWindow.autoSavePosition = true;
         guiWindow.RetrievePosition();
     }
-    
+
     ConfigurableDialog component = dialog.GetComponent<ConfigurableDialog>();
     component.Show(config, successHandler, cancelHandler);
     return component;
