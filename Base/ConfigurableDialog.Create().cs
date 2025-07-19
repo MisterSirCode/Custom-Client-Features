@@ -35,10 +35,12 @@ public static ConfigurableDialog Create(Dictionary<string, object> config, Confi
     // For some types of dialog try to resize according to preference
     string dialogSizeId =@string ?? "standard";
     GuiWindow guiWindow = dialog.GetComponent<GuiWindow>();
-    guiWindow.windowGroup = dialogSizeId;
-    if(dialogSizeId == "android") {
-        guiWindow.autoSavePosition = true;
-        guiWindow.RetrievePosition();
+    if (guiWindow != null) {
+        guiWindow.windowGroup = dialogSizeId;
+        if (dialogSizeId == "android") {
+            guiWindow.autoSavePosition = true;
+            guiWindow.RetrievePosition();
+        }
     }
 
     ConfigurableDialog component = dialog.GetComponent<ConfigurableDialog>();
