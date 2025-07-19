@@ -7,7 +7,7 @@
 		if (emitterPosition != null) {
 			this.emitterPosition = new Vector3((float)emitterPosition[0], (float)emitterPosition[1]);
 		} else {
-			this.emitterPosition = new Vector3(0.5f, -0.2f);
+			this.emitterPosition = new Vector3(0.5f, -0.4f);
 		}
 
 ...
