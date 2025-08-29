@@ -8,18 +8,19 @@ public void LoadAtlases() {
     this.LoadAtlas("front-quality", true, false, "Graphics/WorldSpriteMaterial");
     this.LoadAtlas("front-whole", true, true, "Graphics/WorldSpriteMaterial");
     this.LoadAtlas("signs", true, false, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-temperate", false, true, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-temperate-background", false, false, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-arctic", false, true, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-arctic-background", false, false, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-desert", false, true, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-desert-background", false, false, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-hell", false, true, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-hell-background", false, false, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-brain", false, true, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-brain-background", false, false, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-deep", false, true, "Graphics/WorldSpriteMaterial");
-    this.LoadAtlas("biome-space", false, true, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-temperate", true, true, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-temperate-background", true, false, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-arctic", true, true, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-arctic-background", true, false, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-desert", true, true, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-desert-background", true, false, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-hell", true, true, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-hell-background", true, false, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-brain", true, true, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-brain-background", true, false, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-deep", true, true, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-space", true, true, "Graphics/WorldSpriteMaterial");
+    this.LoadAtlas("biome-ocean", true, true, "Graphics/WorldSpriteMaterial");
     if (this.loadClassic) {
         this.LoadAtlas("biome-classic", false, true, "Graphics/WorldSpriteMaterial");
     }
