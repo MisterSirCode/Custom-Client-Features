@@ -6,11 +6,24 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ExternalMusicLoader : MonoBehaviour {
+	public struct NamedClip {
+		public NamedClip(string name, AudioClip clip, bool exists) {
+			this.name = name;
+			this.clip = clip;
+			this.exists = exists;
+		}
+
+		public string name { get; }
+		public AudioClip clip { get; }
+		public bool exists { get; }
+	};
+
 	public void Start() {
 		if (ExternalMusicLoader.instance != null) {
 			return;
 		}
 		ExternalMusicLoader.instance = this;
+		ExternalMusicLoader.clips = new List<NamedClip>();
 		AudioSource newSource = Camera.current.gameObject.AddComponent<AudioSource>();
 		this.controller = newSource;
 		if (PlayerPrefs.HasKey("musicVolume"))
@@ -40,19 +53,35 @@ public class ExternalMusicLoader : MonoBehaviour {
         if (!GameManager.IsGame()) this.controller.Stop();
 	}
 
+	NamedClip GetNamedClip(string path) {
+		foreach (NamedClip clip in ExternalMusicLoader.clips) {
+			if (clip.name == path) return clip;
+			else continue; 
+		}
+		return new NamedClip("", null, false);
+	}
+
 	public IEnumerator LoadAudioFile(string path) {
-		WWW www = new WWW(path);
-		yield return www;
-		try {
-			this.clip = www.GetAudioClip(false, false, AudioType.WAV);
-			//ExternalConsole.Log("Song Size (MB)", Mathf.Round((float)www.bytesDownloaded / 1000000f).ToString());
-            this.controller.clip = this.clip;
-            this.controller.Play();
-            this.waitingForSong = false;
-			www.Dispose();
-			yield break;
-		} catch(Exception e) {
-			ExternalConsole.Log("Loading Asset Failed", e.ToString()); 
+		NamedClip namedClip = GetNamedClip(path);
+		if (namedClip.exists) {
+			this.controller.clip = namedClip.clip;
+			this.controller.Play();
+			this.waitingForSong = false;
+		} else {
+			WWW www = new WWW(path);
+			yield return www;
+			try {
+				NamedClip toWrite = new NamedClip(path, www.GetAudioClip(false, false, AudioType.WAV), true);
+				ExternalMusicLoader.clips.Add(toWrite);
+				//ExternalConsole.Log("Song Size (MB)", Mathf.Round((float)www.bytesDownloaded / 1000000f).ToString());
+				this.controller.clip = toWrite.clip;
+				this.controller.Play();
+				this.waitingForSong = false;
+				www.Dispose();
+				yield break;
+			} catch(Exception e) {
+				ExternalConsole.Log("Loading Asset Failed", e.ToString()); 
+			}
 		}
 	}
 
@@ -78,10 +107,10 @@ public class ExternalMusicLoader : MonoBehaviour {
     }
 
 	public static ExternalMusicLoader instance;
+	public static List<NamedClip> clips;
     public List<ExternalAsset> queue;
     public List<ExternalAsset> assets;
 	public AudioSource controller;
-	public AudioClip clip;
     public bool playLoop;
     public bool waitingForNext;
     public bool waitingForSong;
