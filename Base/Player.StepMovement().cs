@@ -63,7 +63,7 @@ private void StepMovement() {
             return;
         }
         if (this.IsGrounded()) {
-            this.avatar.WalkOn(this.BelowBlock(), wasAirborne);
+            this.avatar.WalkOn(this.collidingBlock, wasAirborne);
             if (movement == Player.Movement.Stomping) {
                 this.StompComplete();
             }
