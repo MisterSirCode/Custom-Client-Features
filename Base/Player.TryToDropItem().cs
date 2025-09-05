@@ -1,3 +1,5 @@
+using Items;
+
 public bool TryToDropItem(Vector2 worldPosition, Item item) {
 	EntityAvatar entityAvatar = ReplaceableSingleton<Ecosystem>.main.NearbyPeer(worldPosition, 0.25f);
 	// If the entity is a player, send a "trade" entity use command
