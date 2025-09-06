@@ -9,8 +9,10 @@ public void UpdateNameLabel() {
     this.nameLabel.name = ((this.nameIcon == null) ? base.name : ("   " + base.name));
     if (this.nameIcon != null) {
         this.nameLabel.iconSprite.Collection = Singleton<AtlasManager>.main.Collection("customEmoji");
-        this.nameLabel.iconSprite.transform.localScale = new Vector3(5f, 5f, 1f);
         this.nameLabel.iconName = ((this.nameIcon == null) ? null : this.nameIcon.Replace("orders/", ""));
+        if (this.nameLabel.iconSprite) {
+            this.nameLabel.iconSprite.transform.localScale = new Vector3(5f, 5f, 1f);
+        }
     } else {
         this.nameLabel.iconSprite.transform.localScale = new Vector3(1f, 1f, 1f);
         this.nameLabel.iconName = null;
