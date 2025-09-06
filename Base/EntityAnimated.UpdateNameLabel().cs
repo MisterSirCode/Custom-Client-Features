@@ -12,6 +12,7 @@ public void UpdateNameLabel() {
         this.nameLabel.iconSprite.transform.localScale = new Vector3(5f, 5f, 1f);
         this.nameLabel.iconName = ((this.nameIcon == null) ? null : this.nameIcon.Replace("orders/", ""));
     } else {
+        this.nameLabel.iconSprite.transform.localScale = new Vector3(1f, 1f, 1f);
         this.nameLabel.iconName = null;
     }
     this.nameLabel.nameLabel.color = ((!this.nameHighlighted) ? Color.white : GraphicsHelper.HexColor(GameGui.TitleColorHex));
