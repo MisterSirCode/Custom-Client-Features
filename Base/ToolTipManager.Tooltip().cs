@@ -3,7 +3,7 @@ private ToolTip ToolTip(string type) {
     GameObject gameObject = (GameObject)Resources.Load("Prefabs/Tooltips/" + type);
     if (gameObject != null) {
         GameObject gameObject2 = global::UnityEngine.Object.Instantiate<GameObject>(gameObject);
-        if (type == "Item" || type == "Crafting" && ExternalSpriteLoader.HasSprite("panel-tooltip-darker")) {
+        if ((type == "Item" || type == "Crafting") && ExternalSpriteLoader.HasSprite("panel-tooltip-darker")) {
             gameObject2.GetComponent<UnityEngine.UI.Image>().sprite = ExternalSpriteLoader.GetSprite("panel-tooltip-darker");
         }
         gameObject2.transform.SetParent(base.transform, false);
