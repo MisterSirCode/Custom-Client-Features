@@ -44,7 +44,12 @@ public class EmotesPanel : MonoBehaviour {
         GameObject button = new GameObject(item.title + " Button", typeof(Button), typeof(RectTransform), typeof(EmoteButton));
         GameObject image = new GameObject(item.title + " Button Image", typeof(RectTransform), typeof(RawImage));
         RawImage rawImage = image.GetComponent<RawImage>();
-        string spriteName = "inventory/" + item.InventorySpriteName();
+        string spriteName;
+        if (item.InventorySpriteName().StartsWith("inventory/")) {
+            spriteName = item.InventorySpriteName();
+        } else{
+            spriteName = "inventory/" + item.InventorySpriteName();
+        }
         rawImage.texture = Singleton<AtlasManager>.main.SpriteTexture(spriteName, true);
 		tk2dSpriteDefinition tk2DSpriteDefinition = Singleton<AtlasManager>.main.Sprite(spriteName);
         GuiExtensions.SetTk2dSprite(rawImage, tk2DSpriteDefinition);
