@@ -70,11 +70,12 @@ public class ExternalUpdateManager : MonoBehaviour {
         StartCoroutine(this.LoadJSONFile(this.UpdateUrl(), (object item) => {
 			this.jsonData = (Dictionary<string, object>)item;
 			this.recordedVersion = jsonData.GetString("name");
+			this.recordedTag = jsonData.GetString("tag_name");
 			List<object> assets = this.jsonData.GetList("assets");
 			bool isLargeUpdate = assets.Count == 0;
 			string largeUpdateURL = this.jsonData.GetString("body");
 			ExternalConsole.Log("Version Available", this.recordedVersion);
-			if (GameManager.Version != this.recordedVersion) {
+			if (GameManager.tag < int.Parse(this.recordedTag)) {
 				ExternalUpdateManager.shouldShowPanel = true;
 				this.manager = GameObject.FindObjectOfType<HomeManager>();
 				this.manager.spinner.SetActive(false);
@@ -170,6 +171,7 @@ public class ExternalUpdateManager : MonoBehaviour {
 	public HomeManager manager;
 	public GUIStyle labelStyle;
 	public string recordedVersion;
+	public string recordedTag;
 	public static bool isUpdating;
 	public static bool shouldShowPanel;
 	public string currentUpdateText;
