@@ -1,1 +1,1 @@
-public static readonly string Version = "3.13.6";
+public static readonly string Version = "3.13.7";
