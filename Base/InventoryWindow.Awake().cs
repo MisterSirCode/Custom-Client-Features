@@ -1,3 +1,7 @@
+using System;
+using UnityEngine;
+using UnityEngine.UI;
+
 private void Awake() {
     this.primaryWindow = base.GetComponent<PrimaryWindow>();
     this.primaryWindow.windowName = "inventory";
