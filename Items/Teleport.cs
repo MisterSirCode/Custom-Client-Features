@@ -13,7 +13,7 @@ namespace Items {
                 allItemNames = (
                     from item in Config.main.AllItems()
                     where item.action == Item.Action.Teleport
-                    orderby item.power
+                    orderby item.power descending
                     select item.name
                 ).ToList();
             }
@@ -40,7 +40,7 @@ namespace Items {
 
             return false;
         }
-        
+
         protected override bool UseInternal(object useData) {
             if (useData != null) {
                 return false;
