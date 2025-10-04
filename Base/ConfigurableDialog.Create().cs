@@ -43,6 +43,11 @@ public static ConfigurableDialog Create(Dictionary<string, object> config, Confi
         }
     }
 
+    Transform scrollRectObj = gameObject.transform.Find("Scroll Container/Scroll Rect");
+    if (scrollRectObj != null) {
+        scrollRectObj.gameObject.AddComponent<ScrollSpeedSetting>();
+    }
+
     ConfigurableDialog component = dialog.GetComponent<ConfigurableDialog>();
     component.Show(config, successHandler, cancelHandler);
     return component;
