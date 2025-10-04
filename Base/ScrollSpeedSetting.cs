@@ -5,6 +5,9 @@ class ScrollSpeedSetting : MonoBehaviour {
     private void Awake() {
         scrollRect = this.GetComponent<ScrollRect>();
         Messenger.AddListener("settingChanged", new Callback<string, object>(OnSettingChanged));
+        if (!PlayerPrefs.HasKey("scrollSpeed")) {
+            PlayerPrefs.SetFloat("scrollSpeed", 18f);
+        }
     }
 
     private void OnSettingChanged(string setting, object value) {
