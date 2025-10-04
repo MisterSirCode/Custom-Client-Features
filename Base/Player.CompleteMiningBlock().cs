@@ -18,12 +18,12 @@ public bool CompleteMiningBlock(ZoneBlock block) {
         Item inventoryItem = (item.mod != Item.Mod.Decay || layerMod <= 0 || item.decayInventoryItem == null) ? item.inventoryItem : item.decayInventoryItem;
         if (inventoryItem != null) {
             int qty = 1;
-            int pile = item.use.GetInt("pile");
+            object pile = item.Usability(Item.Use.Pile);
             if (item.mod == Item.Mod.Stack && layerMod > 0) {
                 qty = layerMod;
             }
-            if (pile != 0) {
-                qty = pile * layerMod;
+            if (pile != null) {
+                qty = (int)pile * layerMod;
             }
             this.inventory.Add(inventoryItem.code, qty);
         }
