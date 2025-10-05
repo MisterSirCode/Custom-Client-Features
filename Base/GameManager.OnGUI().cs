@@ -2,6 +2,9 @@ public void OnGUI() {
     if (ExternalConsole.GetInstance() != null && ExternalConsole.GetInstance().enabled) {
         ExternalConsole.GetInstance().Draw();
     }
+    if (!GameManager.IsGame()) {
+        return;
+    }
     Vector3 vector = Input.mousePosition;
     Vector2 pos = ReplaceableSingleton<Zone>.main.ScreenToBlockPosition(new Vector2(vector.x, vector.y));
 	Vector2 wpos = ReplaceableSingleton<Zone>.main.ScreenToWorldPosition(new Vector2(vector.x, vector.y));

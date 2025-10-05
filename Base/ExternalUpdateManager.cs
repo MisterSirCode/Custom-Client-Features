@@ -125,7 +125,7 @@ public class ExternalUpdateManager : MonoBehaviour {
 
     public void OnGUI() {
 		if (!GameManager.IsGame()) {
-			if (this.manager.spinner.active && ExternalUpdateManager.isUpdating) {
+			if (this.manager != null && this.manager.spinner.active && ExternalUpdateManager.isUpdating) {
 				Vector2 vector = new Vector2((float)Screen.width / 2f, (float)Screen.height / 2f);
 				ExternalConsole.Log("Position", vector);
 				GUI.Label(new Rect(vector.x - 80f, vector.y + 60f, 160f, 30f), new GUIContent(this.currentUpdateText), this.labelStyle);
