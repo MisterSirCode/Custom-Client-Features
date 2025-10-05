@@ -6,10 +6,12 @@ public void OnPointerClick(PointerEventData eventData) {
         if (this.teleporterOriginBlock != null) {
             new All(this.teleporterOriginBlock.frontItem).SendCommand(this.teleporterOriginBlock, targetPosition);
         } else {
-            Item consumableTeleporter = Item.Get("consumables/teleporter");
+            Item consumableTeleporter = Items.Teleport.BestItem();
             if (consumableTeleporter != null && consumableTeleporter.code != 0) {
                 Command.Send(Command.Identity.InventoryUse, new object[]{ 0, consumableTeleporter.name, 1, targetPosition });
-                ReplaceableSingleton<Player>.main.inventory.Remove(consumableTeleporter.code, 1);
+                if (consumableTeleporter.consumable) {
+                    ReplaceableSingleton<Player>.main.inventory.Remove(consumableTeleporter.code, 1);
+                }
             }
         }
         Messenger.Broadcast<bool>("mapShow", false);
