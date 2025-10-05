@@ -3,7 +3,9 @@
 			if (!(name == "sfxVolume")) {
 				if (name == "musicVolume") {
 					this.SetVolume("musicVolume", val);
-					ExternalMusicLoader.instance.controller.volume = val;
+					if (ExternalMusicLoader.instance != null) {
+						ExternalMusicLoader.instance.controller.volume = val;
+					}
 				}
 			} else {
 				this.SetVolume("sfxVolume", val);
