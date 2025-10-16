@@ -102,7 +102,7 @@ private void StepMovement() {
         } else {
             if (flag6) {
                 this.movement = Player.Movement.Stomping;
-                this.Move(0.3f, 0f, 1f, 1f);
+                this.Move(0.3f, 0f, 3f, 1f);
                 this.UseStompAccessory();
                 return;
             }
