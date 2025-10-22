@@ -6,5 +6,5 @@ public override void Change(Dictionary<string, object> changedDetails) {
     }
     this.isHuman = true;
     this.HideExo();
-    this.UpdateAppearance(changedDetails);
+    this.UpdateAppearance(this.details);
 }
