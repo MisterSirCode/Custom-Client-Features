@@ -1,1 +1,0 @@
-private float lastActivatedShieldAt;

@@ -4,7 +4,7 @@ private void StepTools() {
         if (this.activeShield.rate > 0.0f && this.steam <= 0f) {
             this.ToggleShield(false);
         }
-        if (this.activeShield.firingDuration > 0.0f && Time.time > this.lastActivatedShieldAt + this.activeShield.firingDuration) {
+        if (this.MomentaryAccessoryEnded(this.activeShield)) {
             this.ToggleShield(false);
         }
     }

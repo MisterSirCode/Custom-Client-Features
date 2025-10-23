@@ -1,24 +1,9 @@
 public void ToggleShield(bool on) {
     if (on) {
         if (this.activeShield == null) {
-            Item shield = AccessoryWithAction(Item.Action.Shield);
-            if (Time.time > lastActivatedShieldAt + shieldCooldown) {
-                List<Item> accessories = new(inventory.accessories);
-                accessories.Reverse();
-                foreach (Item accessory in accessories) {
-                    if (accessory != null && accessory.category == "prosthetics" && accessory.name.Contains("torso") && accessory.firingDuration > 0.0f) {
-                        shield = accessory;
-                    }
-                }
-            }
-            this.activeShield = shield;
-            if (this.activeShield != null && this.activeShield.firingDuration > 0.0f) {
-                this.lastActivatedShieldAt = Time.time;
-                this.shieldCooldown = this.activeShield.firingDuration + this.activeShield.firingInterval;
-            }
+            this.activeShield = this.ActivateMomentaryAccessory(Item.Action.Shield);
         }
-    } else {
-        if (this.activeShield != null && this.activeShield.firingDuration > 0.0f && this.lastActivatedShieldAt + this.activeShield.firingDuration > Time.time) return;
+    } else if (this.activeShield != null && (this.MomentaryAccessoryEnded(this.activeShield) || (this.activeShield.rate > 0f && this.steam <= 0f))) {
         this.activeShield = null;
         this.avatar.shield.color = GraphicsHelper.HexColor("b744ff");
     }
