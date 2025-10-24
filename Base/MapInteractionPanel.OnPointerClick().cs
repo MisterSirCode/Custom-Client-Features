@@ -9,7 +9,7 @@ public void OnPointerClick(PointerEventData eventData) {
             Item consumableTeleporter = Items.Teleport.BestItem();
             if (consumableTeleporter != null && consumableTeleporter.code != 0) {
                 Command.Send(Command.Identity.InventoryUse, new object[]{ 0, consumableTeleporter.name, 1, targetPosition });
-                if (consumableTeleporter.consumable) {
+                if (!consumableTeleporter.name.Contains("infinite")) {
                     ReplaceableSingleton<Player>.main.inventory.Remove(consumableTeleporter.code, 1);
                 }
             }
