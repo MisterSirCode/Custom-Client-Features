@@ -79,6 +79,9 @@ private void Update() {
 		if (this.IsKeyUp("Shield")) {
 			Messenger.Broadcast("shieldOff");
 		}
+		if (this.IsKeyDown("Stealth")) {
+			Stealth.UseTheBest();
+		}
 		if (this.IsKeyDown("Teleport")) {
 			Teleport.UseTheBest();
 		}
