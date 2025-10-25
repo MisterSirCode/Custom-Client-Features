@@ -3,7 +3,7 @@ public void ToggleShield(bool on) {
         if (this.activeShield == null) {
             this.activeShield = this.ActivateMomentaryAccessory(Item.Action.Shield);
         }
-    } else if (this.activeShield != null && (this.MomentaryAccessoryEnded(this.activeShield) || (this.activeShield.rate > 0f && this.steam <= 0f))) {
+    } else {
         this.activeShield = null;
         this.avatar.shield.color = GraphicsHelper.HexColor("b744ff");
     }

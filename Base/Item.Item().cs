@@ -1,5 +1,10 @@
 ...
 
+        // Exists in the original - replace
+        this.isAccessory = this.category == "accessories" || this.category == "shields" || this.category == "prosthetics";
+
+...
+        // New - add
         this.scrubbable = base.ConfigBool("scrubbable", false);
         this.jiggle = base.ConfigFloat("jiggle", 0.0f);
         this.firingDuration = this.data.ContainsKey("firing_duration") ? ((float)this.data.Get("firing_duration")) : 0f;
