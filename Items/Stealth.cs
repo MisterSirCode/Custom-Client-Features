@@ -5,6 +5,12 @@ namespace Items {
         public Stealth(Item item) : base(item) { }
 
         protected override bool UseInternal(object useData) {
+            if (this.item.firingInterval > 0f) {
+                Player player = ReplaceableSingleton<Player>.main;
+                if (player != null) {
+                    player.StartCoroutine("MomentaryAccessoryFollowUp", new object[] { this.item, this.item.firingDuration });
+                }
+            }
             return true;
         }
 
