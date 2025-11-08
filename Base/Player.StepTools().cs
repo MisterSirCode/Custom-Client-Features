@@ -1,6 +1,8 @@
 private void StepTools() {
     if (this.activeShield != null) {
-        this.UseSteam(this.activeShield.rate, true, false);
+        if (this.activeShield.rate > 0f) {
+            this.UseSteam(this.activeShield.rate, true, false);
+        }
         if (this.activeShield.rate > 0f && this.steam <= 0f) {
             this.ToggleShield(false);
         }
