@@ -33,6 +33,7 @@ public void Configure(Dictionary<string, object> config) {
     ReplaceableSingleton<ZoneSunlightRenderer>.main.Setup();
     this.chunksExplored = config.GetList("chunks_explored").ConvertAll<bool>((object x) => x != null && (bool)x);
     this.chunksExploredCount = this.chunksExplored.Count((bool x) => x);
+    this.chunksExploredPercent = config.GetFloat("chunks_explored_percent", this.ExploredPercent());
     this.surface = Array.ConvertAll<object, int>(((List<object>)config.Get("surface")).ToArray(), new Converter<object, int>(Convert.ToInt32));
     Messenger.Broadcast<int, int[]>("zoneSurfaceChanged", this.blockSize.height, this.surface);
     this.bookmarked = Convert.ToInt32(config.Get("bookmarked")) == 1;
