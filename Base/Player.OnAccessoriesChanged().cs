@@ -16,11 +16,9 @@ private void OnAccessoriesChanged(List<Item> accessories) {
             }
             this.lightAccessory = accessory;
         }
-    }
-
-    foreach (Item hiddenItem in this.inventory.hidden) {
-        if (hiddenItem.action == Item.Action.Exoleg) {
-            this.stompAccessory = hiddenItem;
+        
+        if (accessory.action == Item.Action.Exoleg) {
+            this.stompAccessory = accessory;
         }
     }
 
